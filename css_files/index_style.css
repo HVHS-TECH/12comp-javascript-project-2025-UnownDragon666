@@ -1,3 +1,27 @@
 /* Import roboto flex from google fonts */
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 5rem;
+}
+
+body {
+    background-image: url(../assets/placeholderIndexBackground.png);
+}
+
+#d_contentContainer {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
