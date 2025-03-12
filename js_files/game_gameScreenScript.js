@@ -11,11 +11,15 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 /*******************************************************/
 let player;
 let gamestate = 'play';
+let collectibleGroup;
+let randSpawnRateMax = 5000;
+let collectibleSpawnRate = 40;
 
 /*******************************************************/
 // Constants
 /*******************************************************/
 const MOVEMENTSPEED = 7;
+const SPAWNMARGIN = 20;
 
 /*******************************************************/
 // setup()
@@ -28,6 +32,8 @@ const MOVEMENTSPEED = 7;
 function setup() {
 	console.log("setup() run");
 	cnv = new Canvas(windowWidth, windowHeight-4);
+
+	collectibleGroup = new Group();
 
 	// Walls of play area sprite creation
 	// generateWalls();
@@ -47,7 +53,7 @@ function draw() {
 	background('#d6c2ff'); 
 
 	// Spawn falling objects that give points
-	//game_spawnCollectibleObjects();
+	game_spawnCollectibleObjects();
 
 	// Move player sprite
 	game_movePlayer();
@@ -95,8 +101,12 @@ function game_movePlayer() {
 // Returns: N/A
 /*******************************************************/
 function game_spawnCollectibleObjects() {
-	if (random(0, 50000) < 42) {
-		let starCollectible = new Sprite()
+	
+	// Creates collectible sprites, 
+	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
+		console.log('collectible spawned')
+		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth-SPAWNMARGIN), -10, 20, 'd');
+		collectibleGroup.add(starCollectible);
 	}
 }
 
