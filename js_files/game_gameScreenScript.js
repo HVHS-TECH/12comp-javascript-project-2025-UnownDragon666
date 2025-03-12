@@ -15,7 +15,7 @@ let gamestate = 'play';
 /*******************************************************/
 // Constants
 /*******************************************************/
-
+const MOVEMENTSPEED = 7;
 
 /*******************************************************/
 // setup()
@@ -75,22 +75,30 @@ function game_createPlayerSprite() {
 // Returns: N/A
 /*******************************************************/
 function game_movePlayer() {
-	//Check for left movement
+	// Check for left and right movement
 	if (kb.pressing('a') || kb.pressing('left')) {
-		console.log('left');
-	} else if (kb.pressing('d') || kb.pressing('right')) {
-		console.log('right');
-	}
+        player.vel.x = -1 * MOVEMENTSPEED;
+    } else if (kb.pressing('d') || kb.pressing('right')) {
+        player.vel.x = MOVEMENTSPEED;
+    }
+
+    if (kb.released('a') || kb.released('d') || kb.released('left') || kb.released('right')) {
+        player.vel.x = 0;
+    }
 }
 
 /*******************************************************/
-// createPlayerSprite()
-// Called in setup()
-// Creates the player sprite
+// game_spawnCollectibleObjects()
+// Called in draw loop so times a second
+// Creates the falling collectibles for player to collect
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-
+function game_spawnCollectibleObjects() {
+	if (random(0, 50000) < 42) {
+		let starCollectible = new Sprite()
+	}
+}
 
 /*******************************************************/
 //  END OF APP
