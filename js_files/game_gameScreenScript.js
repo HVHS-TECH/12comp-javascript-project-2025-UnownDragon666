@@ -11,6 +11,9 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 /*******************************************************/
 let player;
 let gamestate = 'play';
+
+
+// Collectibles
 let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = 40;
@@ -18,7 +21,7 @@ let collectibleSpawnRate = 40;
 /*******************************************************/
 // Constants
 /*******************************************************/
-const MOVEMENTSPEED = 7;
+const MOVEMENTSPEED = 9;
 const SPAWNMARGIN = 20;
 
 /*******************************************************/
@@ -36,10 +39,13 @@ function setup() {
 	collectibleGroup = new Group();
 
 	// Walls of play area sprite creation
-	// generateWalls();
+	game_generateWalls();
 
 	// Player sprite creation
 	game_createPlayerSprite();
+
+	// World physics
+	world.gravity.y = 6;
 }
 	
 /*******************************************************/
@@ -95,19 +101,32 @@ function game_movePlayer() {
 
 /*******************************************************/
 // game_spawnCollectibleObjects()
-// Called in draw loop so times a second
+// Called in draw loop
 // Creates the falling collectibles for player to collect
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
 function game_spawnCollectibleObjects() {
-	
 	// Creates collectible sprites, 
 	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
 		console.log('collectible spawned')
 		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth-SPAWNMARGIN), -10, 20, 'd');
 		collectibleGroup.add(starCollectible);
 	}
+}
+
+/*******************************************************/
+// game_generateWalls()
+// Called in draw loop
+// Creates the falling collectibles for player to collect
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_generateWalls() {
+	//let leftWall  = new Sprite(0, windowHeight/2, 2, windowHeight, 's');
+	//leftWall.color  = 'pink';
+	//let rightWall = new Sprite(windowWidth, windowHeight/2, 2, windowHeight, 's')
+	//rightWall.color = 'pink';
 }
 
 /*******************************************************/
