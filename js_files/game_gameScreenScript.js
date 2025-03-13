@@ -12,21 +12,25 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 let player;
 let gamestate = 'play';
 let score = 0;
+let lives = 5;
 
 // Collectibles
 let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = 40;
+let collectibelGravity = 3.5;
+
+// In future, create spawn timer to prevent large clumps of collectibles spawning.
 let spawnAllowed = true;
 
 /*******************************************************/
 // Constants
 /*******************************************************/
-const MOVEMENTSPEED = 12;
+const MOVEMENTSPEED = 15;
 const SPAWNMARGIN = 20;
 const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
-const COLLECTIBLEGRAVITY = 3.5;
+
 
 /*******************************************************/
 // setup()
@@ -38,7 +42,7 @@ const COLLECTIBLEGRAVITY = 3.5;
 /*******************************************************/
 function setup() {
 	console.log("setup() run");
-	cnv = new Canvas(windowWidth, windowHeight-4);
+	cnv = new Canvas(windowWidth/2, windowHeight-4);
 
 	collectibleGroup = new Group();
 
@@ -49,7 +53,7 @@ function setup() {
 	game_createPlayerSprite();
 
 	// World physics
-	world.gravity.y = COLLECTIBLEGRAVITY;
+	world.gravity.y = collectibelGravity;
 
 	// Game collect logic
 	player.collides(collectibleGroup, game_collectedObject)
@@ -83,7 +87,7 @@ function draw() {
 // Returns: N/A
 /*******************************************************/
 function game_createPlayerSprite() {
-	player = new Sprite(windowWidth/2, windowHeight - 100, PLAYERWIDTH, PLAYERHEIGHT, 'k');
+	player = new Sprite(windowWidth/4, windowHeight - 100, PLAYERWIDTH, PLAYERHEIGHT, 'k');
 	// Temporarily color sprite, in future will use image for sprite.
 	// In future, may use a class for sprite and movement
 	player.color = '#bafff2';
@@ -111,15 +115,15 @@ function game_movePlayer() {
 
 	// Check player position to ensure they don't go off screen
 	// Loop around board when player goes off screen. ^^
-	if (player.x >= windowWidth + PLAYERWIDTH/2) {
+		// Right of screen
+	if (player.x >= windowWidth/2 + PLAYERWIDTH/2) {
 		player.vel.x = 0;
-		player.x = 0 + PLAYERWIDTH/2 + 2;
-		console.log(player.x)
+		player.x = -1 * PLAYERWIDTH/2 + 2;
 	}
-
+		// Left of screen
 	if (player.x <= 0 - PLAYERWIDTH/2) {
 		player.vel.x = 0;
-		player.x = windowWidth - PLAYERWIDTH/2 - 2;
+		player.x = windowWidth/2 + PLAYERWIDTH/2 - 2;
 	}
 }
 
@@ -134,7 +138,7 @@ function game_spawnCollectibleObjects() {
 	// Creates collectible sprites
 	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
 		console.log('collectible spawned')
-		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth-SPAWNMARGIN), -10, 20, 'd');
+		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, 20, 'd');
 		collectibleGroup.add(starCollectible);
 	}
 }
@@ -149,7 +153,7 @@ function game_spawnCollectibleObjects() {
 function game_generateWalls() {
 	let leftWall  = new Sprite(0, windowHeight/2, 2, windowHeight, 's');
 	leftWall.color  = 'pink';
-	let rightWall = new Sprite(windowWidth, windowHeight/2, 2, windowHeight, 's')
+	let rightWall = new Sprite(windowWidth/2, windowHeight/2, 2, windowHeight, 's')
 	rightWall.color = 'pink';
 }
 

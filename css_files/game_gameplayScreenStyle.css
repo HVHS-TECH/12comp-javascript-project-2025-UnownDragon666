@@ -1,3 +1,13 @@
 body {
-    background-color: #d6c2ff;
+    background-color: #a77bff;
+}
+
+
+/* Code to centre by ChatGPT */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
