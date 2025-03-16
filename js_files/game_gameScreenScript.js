@@ -18,7 +18,7 @@ let lives = 5;
 let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = 40;
-let collectibelGravity = 3.5;
+let collectibleGravity = 3.5;
 
 // In future, create spawn timer to prevent large clumps of collectibles spawning.
 let spawnAllowed = true;
@@ -53,10 +53,10 @@ function setup() {
 	game_createPlayerSprite();
 
 	// World physics
-	world.gravity.y = collectibelGravity;
+	world.gravity.y = collectibleGravity;
 
 	// Game collect logic
-	player.collides(collectibleGroup, game_collectedObject)
+	player.collides(collectibleGroup, game_collectedObject);	
 }
 	
 /*******************************************************/
@@ -75,8 +75,12 @@ function draw() {
 	// Move player sprite
 	game_movePlayer();
 
-	// Show player score
+	// Show player score and lives
 	game_displayScore();
+	game_displayLives();
+	
+	// Check for failure to collect object and removes life
+	game_loseLife(game_failObjectCollection());
 }
 
 /*******************************************************/
@@ -139,6 +143,7 @@ function game_spawnCollectibleObjects() {
 	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
 		console.log('collectible spawned')
 		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, 20, 'd');
+		starCollectible.color = 'yellow';
 		collectibleGroup.add(starCollectible);
 	}
 }
@@ -185,6 +190,60 @@ function game_displayScore() {
 	textSize(30);
 	text('Score: ' + score, 20, 40);
 }
+
+/*******************************************************/
+// game_displayLives()
+// Called in draw loop
+// Displays current player lives
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_displayLives() {
+	fill('black');
+	textSize(30);
+	text('Lives: ' + lives, windowWidth/2 - windowWidth/10, 40);
+}
+
+/*******************************************************/
+// game_failObjectCollection()
+// Called in draw loop
+// Checks if object is below the player and returns true if this is the case, and false if it isn't
+// Input: N/A
+// Returns: Boolean of above condition
+/*******************************************************/
+function game_failObjectCollection() {
+	for (let i=0; i<collectibleGroup.length; i++) {
+		if (collectibleGroup[i].y > windowHeight) {
+			collectibleGroup[i].remove();
+			console.log('Dropped ' + collectibleGroup[i]);
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+/*******************************************************/
+// game_loseLife()
+// Called in draw loop
+// removes life if player drops object
+// Input: Boolean of whether an object has been dropped
+// Returns: N/A
+/*******************************************************/
+function game_loseLife(_dropped) {
+	if (_dropped == true) {
+		lives--
+	}
+}
+
+/*******************************************************/
+// game_gameOver()
+// Called in draw loop when player's lives hit 0
+// Goes to end page, sends the score to sessionStorage
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+
 
 /*******************************************************/
 //  END OF APP
