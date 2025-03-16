@@ -81,6 +81,11 @@ function draw() {
 	
 	// Check for failure to collect object and removes life
 	game_loseLife(game_failObjectCollection());
+
+	// Check if lives are 0, if so change page to end screen.
+	if (lives == 0) {
+		game_gameOver();
+	}
 }
 
 /*******************************************************/
@@ -243,7 +248,11 @@ function game_loseLife(_dropped) {
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-
+function game_gameOver() {
+	sessionStorage.setItem('game_playerScore', score);
+	noLoop();
+	window.location.href = '../html_files/end_gameScoreScreen.html';
+}
 
 /*******************************************************/
 //  END OF APP
