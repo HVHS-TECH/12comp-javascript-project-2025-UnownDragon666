@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-    <title>End screen</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>End screen</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script defer src="../js_files/end_scoreScreenScript.js"></script> 
+        <script defer src="../js_files/end_scoreScreenScript.js"></script> 
+
+        <link rel="stylesheet" href="../css_files/end_scoreScreenStyle.css">
     </head>
+    <body onload="end_pageLoadSetup();">
+        <h1 id="h_endMessage"></h1>
+        <p id="p_score"></p>
+        <div id="d_buttonContainer">
+            <button id="b_replayButton">Again!</button>
+            <button id="b_submitScoreButton">Coming soon...</button>
+            <button id="b_settingsButton">Change settings</button>
+        </div>
+    </body>
 </html>

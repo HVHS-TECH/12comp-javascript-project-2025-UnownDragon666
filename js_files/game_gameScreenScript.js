@@ -12,7 +12,7 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 let player;
 let gamestate = 'play';
 let score = 0;
-let lives = 5;
+let lives = 3;
 
 // Collectibles
 let collectibleGroup;
