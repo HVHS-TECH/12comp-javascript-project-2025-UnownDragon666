@@ -1,8 +1,8 @@
-/* Import roboto flex from google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* Import Press Start 2P from google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Press Start 2P', sans-serif;
 }
 
 body {
@@ -14,6 +14,6 @@ h1 {
     margin: auto;
     text-align: center;
     padding: 10rem;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: rgb(255, 197, 6); 
 }
