@@ -15,19 +15,19 @@ let end_playerScore = sessionStorage.getItem("game_playerScore");
 /*******************************************************/
 // Constants
 /*******************************************************/
-// Messages courtesy of ChatGPT (Only the messages were written by ChatGPT)
+// Messages courtesy of ChatGPT (Only the messages were written by ChatGPT, and edited by me to fit the theme)
 const MESSAGEARRAY = [
     "You gave it a good try! Keep going!",
-    "Nice effort! You’re getting closer!",
-    "Well done! You're improving with every play!",
+    "Nice effort! You’re doing well!",
+    "Well done! I believe in you!",
     "Great job! Every attempt makes you stronger!",
     "You’re on the right track! Keep pushing forward!",
     "So close! Just a bit more next time!",
     "Keep it up! You're doing awesome!",
-    "Nice work! You're getting better each time!",
+    "Nice work! You're doing awesome!",
     "You’ve got this! Don’t stop now!",
     "That was awesome! You’re making progress!",
-    "Great effort! You’ll get it next time!",
+    "Great effort! You’ll do better next time!",
     "You're doing fantastic! Keep it up!",
     "Almost there! Keep pushing!",
     "Well played! Your next attempt will be even better!",
@@ -47,7 +47,15 @@ const MESSAGEARRAY = [
 // Returns: N/A
 /*******************************************************/
 function end_pageLoadSetup() {
-    end_displayMessage(end_chooseMessage());
+    // Displays an encouraging message if player's score > 0
+    if (end_playerScore > 0) {
+        end_displayMessage(end_chooseMessage());
+    } else {
+        document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?"
+    }
+    
+    // Displays players score from last play
+    end_displayScore();
 }
 
 /*******************************************************/
@@ -73,4 +81,31 @@ function end_chooseMessage() {
 /*******************************************************/
 function end_displayMessage(_message) {
     document.getElementById('h_endMessage').innerHTML = _message;
+}
+
+/*******************************************************/
+// end_displayScore()
+// Called by end_pageLoadSetup();
+// Displays the player's score from the last round of gameplay
+// Edits the innerHTML on the page.
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function end_displayScore() {
+    // Gets the element by id of the p_score element and sets its innerHTML to the player's score
+    document.getElementById('p_score').innerHTML = 'Score: ' + end_playerScore;
+    // Centre the element horizontally on the page
+    document.getElementById('p_score').style.textAlign = 'center';
+    document.getElementById('p_score').style.margin = 'auto';
+}
+
+/*******************************************************/
+// end_restartGame()
+// Called by button on page end_gameScoreScreen.html
+// Redirects to the game page
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function end_restartGame() {
+    window.location.href = '../html_files/game_gameplayScreen.html';
 }
