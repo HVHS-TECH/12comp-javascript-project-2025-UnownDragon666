@@ -20,9 +20,6 @@ let randSpawnRateMax = 5000;
 let collectibleSpawnRate = 40;
 let collectibleGravity = 3.5;
 
-// In future, create spawn timer to prevent large clumps of collectibles spawning.
-let spawnAllowed = true;
-
 /*******************************************************/
 // Constants
 /*******************************************************/
@@ -30,7 +27,7 @@ const MOVEMENTSPEED = 15;
 const SPAWNMARGIN = 20;
 const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
-
+const COLLECTIBLERADIUS = 20;
 
 /*******************************************************/
 // setup()
@@ -147,7 +144,7 @@ function game_spawnCollectibleObjects() {
 	// Creates collectible sprites
 	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
 		console.log('collectible spawned')
-		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, 20, 'd');
+		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
 		starCollectible.color = 'yellow';
 		collectibleGroup.add(starCollectible);
 	}
