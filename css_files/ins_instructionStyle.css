@@ -1,0 +1,13 @@
+/* Import Uncial Antiqua from google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&family=Uncial+Antiqua&display=swap');
+
+h1, p {
+    font-family: "Uncial Antiqua", serif;
+}
+
+h1 {
+    font-size: 5rem;
+    margin: auto;
+    padding-top: 3rem;
+    text-align: center;
+}

@@ -1,0 +1,48 @@
+/*******************************************************/
+// ins_instructionScript.js
+// Instruction pager script
+// Written by Idrees Munshi
+/*******************************************************/
+console.log('%cins_instructionScript running', 'color: blue; background-color: white;');
+
+/*******************************************************/
+// Variables
+/*******************************************************/
+
+
+/*******************************************************/
+// Constants
+/*******************************************************/
+
+
+/*******************************************************/
+// ins_denyHelp()
+// Called by button in ins_gameInstructions.html
+// returns player to start screen
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function ins_denyHelp() {
+    if (confirm('Are you sure?') == true) {
+        window.location.replace('../index.html');
+    }
+}
+
+/*******************************************************/
+// ins_displayInstructions()
+// Called by button in ins_gameInstructions.html
+// Replaces the <p> tags' innerHTML to display instructions
+// Remove buttons, create a button to go to gameSettings page
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function ins_displayInstructions() {
+    console.log('Instructions displayed');
+    
+    // Empty p_loreContent
+    document.getElementById('p_loreText').innerHTML = '';
+
+    // Display instructions in p_instructionText
+    document.getElementById('p_instructionText').innerHTML = "Use left and right arrow keys, or A and D keys to move the collector. <br> Collect as many stars as you can without collecting the asteroids. <br>"
+    
+}   
