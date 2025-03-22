@@ -1,23 +1,51 @@
-/* Import roboto flex from google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* Import Marcellus from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Marcellus', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: whitesmoke;
+    text-shadow:  
+    0px 0px 10px rgba(255, 255, 255, 0.8),  
+    0px 0px 20px rgba(255, 255, 255, 0.6),  
+    0px 0px 30px rgba(255, 255, 255, 0.4);
 }
 
 h1 {
     font-size: 5rem;
+    margin-bottom: 3rem;
+    text-align: center;
 }
 
+p {
+    font-size: 1.5rem;
+    text-shadow:  
+    1px 1px 4px rgba(255, 255, 255, 0.8),  
+    0px 0px 6px rgba(0, 208, 255, 0.5); 
+}
+
+/* Parts of following code written by ChatGPT to properly stack the elements on the page */
+
 body {
-    background-image: url(../assets/placeholderIndexBackground.png);
+    /* Creative Commons Attribution-NonCommercial-No Derivatives Works 3.0 License */
+    /* Source: https://www.deviantart.com/kirimimi/art/Your-name-639314037 */
+    background-image: url(../assets/indexBackgound.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #d_contentContainer {
-    position: fixed;
-    height: 100%;
-    width: 100%;
     display: flex;
-    justify-content: center;
-    margin-top: 5rem;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    width: 100%;
 }
