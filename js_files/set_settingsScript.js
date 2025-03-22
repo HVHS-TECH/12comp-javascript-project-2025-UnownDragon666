@@ -29,7 +29,13 @@ const SPAWNDENSITY = [
     {spawnNum: 60, density: 'Crazy'}, 
     {spawnNum: 100, density: 'RAIN OF GOD'}
 ];
-
+const DANGERSPAWNRATE = [
+    {spawnNum: 0, canSpawn: 'Safe'},
+    {spawnNum: 0, canSpawn: 'Safe'},
+    {spawnNum: 0, canSpawn: 'Safe'},
+    {spawnNum: 50, canSpawn: 'Danger'},
+    {spawnNum: 150, canSpawn: "GOD'S WRATH"}
+]
 
 /*******************************************************/
 // set_identifyDiffIndex()
@@ -76,7 +82,8 @@ function set_displayDifficultyInfo(event) {
     set_diffInfoText.innerHTML = 
         'Lives: ' + LIVES[diffIndex] + '<br>' + 
         'Star Speed: ' + FALLSPEED[diffIndex].speed + '<br>' + 
-        'Star Density: ' + SPAWNDENSITY[diffIndex].density;
+        'Star Density: ' + SPAWNDENSITY[diffIndex].density + '<br>' +
+        'Are you in danger: ' + DANGERSPAWNRATE[diffIndex].canSpawn;
     
     // Check if button exists, if not, create it
     if (!document.getElementById('startButton')) {
@@ -107,6 +114,7 @@ function set_startGame() {
     sessionStorage.setItem('lives', LIVES[diffIndex]);
     sessionStorage.setItem('fallSpeed', FALLSPEED[diffIndex].speedNum);
     sessionStorage.setItem('spawnChance', SPAWNDENSITY[diffIndex].spawnNum);
+    sessionStorage.setItem('dangerSpawnRate', DANGERSPAWNRATE[diffIndex].spawnNum);
 
     // Go to game page
     window.location.assign('../html_files/game_gameplayScreen.html');
