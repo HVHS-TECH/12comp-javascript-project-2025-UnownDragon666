@@ -12,13 +12,17 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 let player;
 let gamestate = 'play';
 let score = 0;
-let lives = 3;
+let lives = sessionStorage.getItem('lives');
 
 // Collectibles
 let collectibleGroup;
 let randSpawnRateMax = 5000;
-let collectibleSpawnRate = 40;
-let collectibleGravity = 3.5;
+let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
+let collectibleGravity = sessionStorage.getItem('fallSpeed');
+
+// Asteroids
+let asteroidSpawnRateMax = 10000;
+let dangerSpawnRate = sessionStorage.getItem('dangerSpawnRate')
 
 /*******************************************************/
 // Constants
@@ -28,6 +32,7 @@ const SPAWNMARGIN = 20;
 const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
 const COLLECTIBLERADIUS = 20;
+const ASTEROIDRADIUS = 30;
 
 /*******************************************************/
 // setup()
@@ -41,7 +46,10 @@ function setup() {
 	console.log("setup() run");
 	cnv = new Canvas(windowWidth/2, windowHeight-4);
 
+	// Create groups for falling objects
 	collectibleGroup = new Group();
+	asteroidGroup = new Group();
+
 
 	// Walls of play area sprite creation
 	game_generateWalls();
@@ -53,7 +61,10 @@ function setup() {
 	world.gravity.y = collectibleGravity;
 
 	// Game collect logic
-	player.collides(collectibleGroup, game_collectedObject);	
+	player.collides(collectibleGroup, game_collectedObject);
+	
+	// Game asteroid collect logic
+	player.collides(asteroidGroup, game_hitAsteroid);
 }
 	
 /*******************************************************/
@@ -69,6 +80,9 @@ function draw() {
 	// Spawn falling objects that give points
 	game_spawnCollectibleObjects();
 
+	// Spawn falling objects that player avoids
+	game_spawnDangerousObjects();
+
 	// Move player sprite
 	game_movePlayer();
 
@@ -78,6 +92,9 @@ function draw() {
 	
 	// Check for failure to collect object and removes life
 	game_loseLife(game_failObjectCollection());
+
+	// Check if asteroid has passed and delete it
+	game_asteroidPass();
 
 	// Check if lives are 0, if so change page to end screen.
 	if (lives == 0) {
@@ -119,6 +136,14 @@ function game_movePlayer() {
         player.vel.x = 0;
     }
 
+	if (kb.pressing('space')) {
+		player.vel.x *= 1.75;
+	}
+
+	if (kb.released('space')) {
+		player.vel.x = 0;
+	}
+
 	// Check player position to ensure they don't go off screen
 	// Loop around board when player goes off screen. ^^
 		// Right of screen
@@ -151,6 +176,24 @@ function game_spawnCollectibleObjects() {
 }
 
 /*******************************************************/
+// game_spawnDangerousObjects()
+// Called in draw loop
+// Creates the falling objects for player to avoid
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_spawnDangerousObjects() {
+	// Creates asteroids for player to avoid
+	if (collectibleSpawnRate >= 59) {
+		if (random(0, asteroidSpawnRateMax) < dangerSpawnRate) {
+			let asteroid = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, ASTEROIDRADIUS, 'd');
+			asteroid.color = 'red';
+			asteroidGroup.add(asteroid);
+		}
+	}
+}
+
+/*******************************************************/
 // game_generateWalls()
 // Called in draw loop
 // Creates the falling collectibles for player to collect
@@ -173,10 +216,29 @@ function game_generateWalls() {
 /*******************************************************/
 function game_collectedObject(_player, _object) {
 	console.log("Object collected");
+	
 	// Increase player's score
 	// In future, may have different scores for different objects.
 	score++;
+	
 	// Remove the object from the game
+	_object.remove();
+}
+
+/*******************************************************/
+// game_hitAsteroid()
+// Called during player collision with asteroidGroup
+// Decreases life and removes the object that collided with player
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_hitAsteroid(_player, _object) {
+	console.log('Collected asteroid');
+
+	// Decrease lives by 1
+	lives--;
+	
+	// Remove the object from  the game
 	_object.remove();
 }
 
@@ -221,6 +283,22 @@ function game_failObjectCollection() {
 			return true;
 		} else {
 			return false;
+		}
+	}
+}
+
+/*******************************************************/
+// game_asteroidPass()
+// Called in draw loop
+// Checks if asteroid has passed player, and if so deletes it
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_asteroidPass() {
+	for (let i=0; i<asteroidGroup.length; i++) {
+		if (asteroidGroup[i].y > windowHeight) {
+			asteroidGroup[i].remove();
+			console.log(asteroidGroup[i] + ' passed');
 		}
 	}
 }

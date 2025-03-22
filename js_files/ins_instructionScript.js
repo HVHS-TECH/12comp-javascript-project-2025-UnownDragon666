@@ -1,6 +1,6 @@
 /*******************************************************/
 // ins_instructionScript.js
-// Instruction pager script
+// Instruction page script
 // Written by Idrees Munshi
 /*******************************************************/
 console.log('%cins_instructionScript running', 'color: blue; background-color: white;');
