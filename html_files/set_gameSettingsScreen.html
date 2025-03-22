@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <title>Settings Screen</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../css_files/set_settingsStyle.css">
+
+        <script defer src="../js_files/set_settingsScript.js"></script>
+    </head>
+    <main>
+        <h1>How skilled are you?</h1>
+        <form id="f_difficultyForm" name="difficultyForm">
+            <label for="i_diffSelect">Choose a difficulty:</label>
+            <select id="s_diffSelect" name="s_diffSelect" required>
+                <option value="diff_novice" selected>Novice</option>
+                <option value="diff_apprentice">Apprentice</option>
+                <option value="diff_expert">Expert</option>
+                <option value="diff_master">Master</option>
+                <option value="diff_divine">DIVINE</option>
+            </select>
+
+            <button type="submit" onclick="set_displayDifficultyInfo()">Show me the challenge</button>
+        </form>
+
+        <p id="p_difficultyInfo">
+            
+        </p>
+    </main>
+</body>
+</html>

@@ -1,13 +1,57 @@
-/* Import Uncial Antiqua from google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&family=Uncial+Antiqua&display=swap');
+/* Import Caudex from google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 h1, p {
-    font-family: "Uncial Antiqua", serif;
+    font-family: "Caudex", serif;
+    text-shadow: 2px 2px 16px rgba(115, 45, 1, 0.775);
 }
 
 h1 {
-    font-size: 5rem;
+    font-size: 6rem;
     margin: auto;
     padding-top: 3rem;
     text-align: center;
+    margin-bottom: 6rem;
 }
+
+p {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 6rem;
+}
+
+#d_buttonContainer {
+    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+body {
+    /* License: https://www.rawpixel.com/services/licenses/personal */
+    /* Source:  https://www.rawpixel.com/image/6238166/photo-image-background-paper-texture */
+    background-image: url(../assets/instructionsBackground.jpg);
+}
+
+/* The button style are written with the help of ChatGPT */
+
+button {
+    font-family: "Caudex", serif;
+    font-size: 1.8rem;
+    padding: 6px 30px;
+    background: linear-gradient(180deg, #f1e7d0, #d6c4a1);
+    background-size: 200% 200%;
+    border: 2px solid #8b5a2b;
+    color: #4a2c0a;
+    border-radius: 8px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    transition: background-position 0.7s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:hover {
+    background-position: 100% 100%;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px);
+}
+
