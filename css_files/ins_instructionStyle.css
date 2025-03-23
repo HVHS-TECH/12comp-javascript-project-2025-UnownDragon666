@@ -32,6 +32,8 @@ body {
     /* License: https://www.rawpixel.com/services/licenses/personal */
     /* Source:  https://www.rawpixel.com/image/6238166/photo-image-background-paper-texture */
     background-image: url(../assets/instructionsBackground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* The button style are written with the help of ChatGPT */

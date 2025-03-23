@@ -10,17 +10,18 @@ console.log('%cset_settingsScript.js running', 'color: blue; background-color: w
 /*******************************************************/
 let set_diffInfoText = document.getElementById('p_difficultyInfo');
 let diffIndex;
+let diffSelectValue;
 
 /*******************************************************/
 // Constants
 /*******************************************************/
 const LIVES = [10, 5, 3, 1, 1];
 const FALLSPEED = [
-    {speedNum: 3.5, speed: 'Slow'},
-    {speedNum: 5, speed: 'Medium'}, 
-    {speedNum: 7, speed: 'Fast'}, 
-    {speedNum: 9.8, speed: 'Insane'}, 
-    {speedNum: 12, speed: "DIVINE"}
+    {speedNum: 4, speed: 'Slow'},
+    {speedNum: 7, speed: 'Medium'}, 
+    {speedNum: 9.8, speed: 'Fast'}, 
+    {speedNum: 12, speed: 'Insane'}, 
+    {speedNum: 15, speed: "DIVINE"}
 ];
 const SPAWNDENSITY = [
     {spawnNum: 40, density: 'Low'}, 
@@ -32,10 +33,10 @@ const SPAWNDENSITY = [
 const DANGERSPAWNRATE = [
     {spawnNum: 0, canSpawn: 'Safe'},
     {spawnNum: 0, canSpawn: 'Safe'},
-    {spawnNum: 0, canSpawn: 'Safe'},
-    {spawnNum: 50, canSpawn: 'Danger'},
+    {spawnNum: 50, canSpawn: 'Safe'},
+    {spawnNum: 80, canSpawn: 'Danger'},
     {spawnNum: 150, canSpawn: "GOD'S WRATH"}
-]
+];
 
 /*******************************************************/
 // set_identifyDiffIndex()
@@ -73,7 +74,7 @@ function set_displayDifficultyInfo(event) {
     event.preventDefault();
 
     // Get the selected difficulty
-    let diffSelectValue = document.getElementById('s_diffSelect').value;
+    diffSelectValue = document.getElementById('s_diffSelect').value;
 
     // Get index of the selected difficulty
     diffIndex = set_identifyDiffIndex(diffSelectValue);

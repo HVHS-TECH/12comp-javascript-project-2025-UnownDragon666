@@ -109,3 +109,14 @@ function end_displayScore() {
 function end_restartGame() {
     window.location.href = '../html_files/game_gameplayScreen.html';
 }
+
+/*******************************************************/
+// end_toSettingsPage()
+// Called by button on page end_gameScoreScreen.html
+// Redirects to the settings page
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function end_toSettingsPage() {
+    window.location.href = '../html_files/set_gameSettingsScreen.html';
+}

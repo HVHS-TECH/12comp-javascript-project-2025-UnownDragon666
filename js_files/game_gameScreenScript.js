@@ -36,6 +36,24 @@ const COLLECTIBLERADIUS = 20;
 const ASTEROIDRADIUS = 30;
 
 /*******************************************************/
+// preload()
+// Called by P5 play before page load
+// Runs code to load assets
+// i.e. images, sounds
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function preload() {
+	console.log("preload() run");
+
+	// Load images
+	// playerImage made by me with Piskel
+	playerImage = loadImage('../assets/playerSprite.png');
+	// Image source: https://www.pngwing.com/en/free-png-mrdni
+	starImage = loadImage('../assets/collectibleSprite.png');
+}
+
+/*******************************************************/
 // setup()
 // Called by P5 play on page load
 // Runs code for game setup
@@ -112,9 +130,12 @@ function draw() {
 /*******************************************************/
 function game_createPlayerSprite() {
 	player = new Sprite(windowWidth/4, windowHeight - 100, PLAYERWIDTH, PLAYERHEIGHT, 'k');
-	// Temporarily color sprite, in future will use image for sprite.
-	// In future, may use a class for sprite and movement
-	player.color = '#bafff2';
+	
+	// Set sprite image
+    player.image = playerImage;
+
+	// Set player sprite collision
+	player.setCollider = 'rectangle', 0, 0, PLAYERWIDTH/4, PLAYERHEIGHT/4;
 }
 
 /*******************************************************/
@@ -171,7 +192,7 @@ function game_spawnCollectibleObjects() {
 	if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
 		console.log('collectible spawned')
 		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
-		starCollectible.color = 'yellow';
+		starCollectible.image = starImage;
 		collectibleGroup.add(starCollectible);
 	}
 }
