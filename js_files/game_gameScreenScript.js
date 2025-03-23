@@ -13,6 +13,7 @@ let player;
 let gamestate = 'play';
 let score = 0;
 let lives = sessionStorage.getItem('lives');
+let difficulty = sessionStorage.getItem('difficulty');
 
 // Collectibles
 let collectibleGroup;
@@ -75,7 +76,7 @@ function setup() {
 // Returns: N/A
 /*******************************************************/
 function draw() {
-	background('#d6c2ff'); 
+	background('#170e36')
 
 	// Spawn falling objects that give points
 	game_spawnCollectibleObjects();
@@ -250,7 +251,7 @@ function game_hitAsteroid(_player, _object) {
 // Returns: N/A
 /*******************************************************/
 function game_displayScore() {
-	fill('black');
+	fill('white');
 	textSize(30);
 	text('Score: ' + score, 20, 40);
 }
@@ -263,7 +264,7 @@ function game_displayScore() {
 // Returns: N/A
 /*******************************************************/
 function game_displayLives() {
-	fill('black');
+	fill('white');
 	textSize(30);
 	text('Lives: ' + lives, windowWidth/2 - windowWidth/10, 40);
 }

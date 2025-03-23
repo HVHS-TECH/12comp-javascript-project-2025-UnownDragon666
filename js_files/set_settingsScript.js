@@ -115,6 +115,7 @@ function set_startGame() {
     sessionStorage.setItem('fallSpeed', FALLSPEED[diffIndex].speedNum);
     sessionStorage.setItem('spawnChance', SPAWNDENSITY[diffIndex].spawnNum);
     sessionStorage.setItem('dangerSpawnRate', DANGERSPAWNRATE[diffIndex].spawnNum);
+    sessionStorage.setItem('difficulty', diffSelectValue)
 
     // Go to game page
     window.location.assign('../html_files/game_gameplayScreen.html');
