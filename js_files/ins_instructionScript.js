@@ -43,7 +43,7 @@ function ins_displayInstructions() {
     document.getElementById('p_loreText').innerHTML = '';
 
     // Display instructions in p_instructionText
-    document.getElementById('p_instructionText').innerHTML = "Use left and right arrow keys, or A and D keys to move the collector. <br> Collect as many stars as you can while avoiding the void shards. <br> Hold space to increase your speed."
+    document.getElementById('p_instructionText').innerHTML = "Use left and right arrow keys, or A and D keys to move the collector. <br> Collect as many stars as you can while avoiding the void shards. <br> Hold space to increase your speed. <br> If you run out of lives, you lose. <br> Good luck!  <br> Warning: Flashing lights.";
 
     // Call function to change buttons to the button that goes to the game settings page
     ins_changeButtons();

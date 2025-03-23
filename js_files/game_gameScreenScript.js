@@ -270,6 +270,18 @@ function game_hitVoidShard(_player, _object) {
 	// Decrease lives by 1
 	lives--;
 
+	// Display danger feedback
+	for (let i=0; i<random(8, 20); i++) {
+		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        particle.vel.x = random(-3, 3);
+        particle.vel.y = random(-3, 3);
+		random(0, 1) < 0.5? particle.color = 'red' : particle.color ='black';
+		particle.bordered = false;
+        particle.life = 30;
+	}
+
+	
+
 	// Remove the object from  the game
 	_object.remove();
 }
