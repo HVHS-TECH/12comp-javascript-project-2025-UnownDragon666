@@ -2,14 +2,56 @@
 
 body {
     background: linear-gradient(to bottom, #7b5eff, #d6c2ff);
+    overflow: hidden;
 }
 
 
-/* Code to centre by ChatGPT */
+/* Code to centre by ChatGPT, along with the star code */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+}
+
+button.bottom-left {
+    position: absolute;
+    bottom: 3rem; 
+    left: 3rem;   
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button.bottom-right {
+    position: absolute;
+    bottom: 3rem; 
+    right: 3rem;   
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Star animation */
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Styling for stars */
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    width: 2px;
+    height: 2px;
+    animation: twinkle infinite linear;
 }

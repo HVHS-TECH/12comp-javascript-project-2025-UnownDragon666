@@ -33,8 +33,8 @@ const SPAWNDENSITY = [
 const DANGERSPAWNRATE = [
     {spawnNum: 0, canSpawn: 'Safe'},
     {spawnNum: 0, canSpawn: 'Safe'},
-    {spawnNum: 50, canSpawn: 'Safe'},
-    {spawnNum: 80, canSpawn: 'Danger'},
+    {spawnNum: 70, canSpawn: 'Careful'},
+    {spawnNum: 100, canSpawn: 'Danger'},
     {spawnNum: 150, canSpawn: "GOD'S WRATH"}
 ];
 

@@ -66,12 +66,11 @@ function preload() {
 /*******************************************************/
 function setup() {
 	console.log("setup() run");
-	cnv = new Canvas(windowWidth/2, windowHeight-4);
+	cnv = new Canvas(windowWidth/2, windowHeight);
 
 	// Create groups for falling objects
 	collectibleGroup = new Group();
 	voidShardGroup = new Group();
-
 
 	// Walls of play area sprite creation
 	game_generateWalls();
@@ -209,13 +208,12 @@ function game_spawnCollectibleObjects() {
 /*******************************************************/
 function game_spawnDangerousObjects() {
 	// Creates voidShards for player to avoid
-	if (collectibleSpawnRate >= 59) {
+	if (collectibleSpawnRate >= 50) {
 		if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
 			let voidShard = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
 			voidShard.image = shardImage;
 			voidShard.scale = 0.5;
 			voidShardGroup.add(voidShard);
-			
 		}
 	}
 }
@@ -243,11 +241,18 @@ function game_generateWalls() {
 /*******************************************************/
 function game_collectedObject(_player, _object) {
 	console.log("Object collected");
-	
 	// Increase player's score
-	// In future, may have different scores for different objects.
 	score++;
 	
+	// Create some particles that kinda make the game look better (feedback)
+	for (let i=0; i<random(8, 20); i++) {
+		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+		particle.vel.x = random(-3, 3);
+		particle.vel.y = random(-3, 3);
+		particle.color = 'yellow';
+		particle.life = 30;
+	}
+
 	// Remove the object from the game
 	_object.remove();
 }
@@ -264,7 +269,7 @@ function game_hitVoidShard(_player, _object) {
 
 	// Decrease lives by 1
 	lives--;
-	
+
 	// Remove the object from  the game
 	_object.remove();
 }
@@ -273,6 +278,7 @@ function game_hitVoidShard(_player, _object) {
 // game_displayScore()
 // Called in draw loop
 // Displays score
+// Drawing context code by ChatGPT
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
@@ -291,6 +297,7 @@ function game_displayScore() {
 // game_displayLives()
 // Called in draw loop
 // Displays current player lives
+// Drawing context code by ChatGPT
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
@@ -301,8 +308,8 @@ function game_displayLives() {
     textStyle(BOLD);
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = "yellow";
-    text("Lives: " + lives, 20, 40);
-    drawingContext.shadowBlur = 0; // Reset
+    text("Lives: " + lives, 20, 80);
+    drawingContext.shadowBlur = 0;
 }
 
 /*******************************************************/
@@ -364,6 +371,44 @@ function game_gameOver() {
 	sessionStorage.setItem('game_playerScore', score);
 	noLoop();
 	window.location.href = '../html_files/end_gameScoreScreen.html';
+}
+
+/*******************************************************/
+// game_createStars()
+// Called by body onload
+// Creates some stars to make the game look good
+// Function written entirely by ChatGPT
+// Input: _numStars (Number of stars to create)
+// Returns: N/A
+/*******************************************************/
+function game_createStars(_numStars) {
+    for (let i = 0; i < _numStars; i++) {
+        let star = document.createElement('div');
+        star.classList.add('star');
+
+        // Random position within the viewport
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.top = Math.random() * window.innerHeight + 'px';
+
+        // Random animation speed and delay
+        let duration = Math.random() * 3 + 2; // Between 2s and 5s
+        let delay = Math.random() * 5; // Up to 5s delay
+        star.style.animationDuration = duration + 's';
+        star.style.animationDelay = delay + 's';
+
+        document.body.appendChild(star);
+    }
+}
+
+/*******************************************************/
+// game_returnHome()
+// Called by button on gameplay page
+// Goes to index.html page
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_returnHome() {
+	window.location.assign('../index.html');
 }
 
 /*******************************************************/
