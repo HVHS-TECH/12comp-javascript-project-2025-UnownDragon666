@@ -21,8 +21,8 @@ let randSpawnRateMax = 5000;
 let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
 let collectibleGravity = sessionStorage.getItem('fallSpeed');
 
-// Asteroids
-let asteroidSpawnRateMax = 10000;
+// VoidShards
+let voidShardSpawnRateMax = 10000;
 let dangerSpawnRate = sessionStorage.getItem('dangerSpawnRate')
 
 /*******************************************************/
@@ -33,7 +33,7 @@ const SPAWNMARGIN = 20;
 const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
 const COLLECTIBLERADIUS = 20;
-const ASTEROIDRADIUS = 30;
+const VOIDSHARDRADIUS = 30;
 
 /*******************************************************/
 // preload()
@@ -51,6 +51,9 @@ function preload() {
 	playerImage = loadImage('../assets/playerSprite.png');
 	// Image source: https://www.pngwing.com/en/free-png-mrdni
 	starImage = loadImage('../assets/collectibleSprite.png');
+	// shardImage made by me with Piskel
+	shardImage = loadImage('../assets/voidShardSprite.png');
+
 }
 
 /*******************************************************/
@@ -67,7 +70,7 @@ function setup() {
 
 	// Create groups for falling objects
 	collectibleGroup = new Group();
-	asteroidGroup = new Group();
+	voidShardGroup = new Group();
 
 
 	// Walls of play area sprite creation
@@ -82,8 +85,8 @@ function setup() {
 	// Game collect logic
 	player.collides(collectibleGroup, game_collectedObject);
 	
-	// Game asteroid collect logic
-	player.collides(asteroidGroup, game_hitAsteroid);
+	// Game voidShard collect logic
+	player.collides(voidShardGroup, game_hitVoidShard);
 }
 	
 /*******************************************************/
@@ -112,8 +115,8 @@ function draw() {
 	// Check for failure to collect object and removes life
 	game_loseLife(game_failObjectCollection());
 
-	// Check if asteroid has passed and delete it
-	game_asteroidPass();
+	// Check if voidShard has passed and delete it
+	game_voidShardPass();
 
 	// Check if lives are 0, if so change page to end screen.
 	if (lives == 0) {
@@ -205,12 +208,14 @@ function game_spawnCollectibleObjects() {
 // Returns: N/A
 /*******************************************************/
 function game_spawnDangerousObjects() {
-	// Creates asteroids for player to avoid
+	// Creates voidShards for player to avoid
 	if (collectibleSpawnRate >= 59) {
-		if (random(0, asteroidSpawnRateMax) < dangerSpawnRate) {
-			let asteroid = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, ASTEROIDRADIUS, 'd');
-			asteroid.color = 'red';
-			asteroidGroup.add(asteroid);
+		if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
+			let voidShard = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
+			voidShard.image = shardImage;
+			voidShard.scale = 0.5;
+			voidShardGroup.add(voidShard);
+			
 		}
 	}
 }
@@ -224,9 +229,9 @@ function game_spawnDangerousObjects() {
 /*******************************************************/
 function game_generateWalls() {
 	let leftWall  = new Sprite(0, windowHeight/2, 2, windowHeight, 's');
-	leftWall.color  = 'pink';
+	leftWall.color  = 'black';
 	let rightWall = new Sprite(windowWidth/2, windowHeight/2, 2, windowHeight, 's')
-	rightWall.color = 'pink';
+	rightWall.color = 'black';
 }
 
 /*******************************************************/
@@ -248,14 +253,14 @@ function game_collectedObject(_player, _object) {
 }
 
 /*******************************************************/
-// game_hitAsteroid()
-// Called during player collision with asteroidGroup
+// game_hitVoidShard()
+// Called during player collision with voidShardGroup
 // Decreases life and removes the object that collided with player
 // Input: _player, _object (object which player collided with)
 // Returns: N/A
 /*******************************************************/
-function game_hitAsteroid(_player, _object) {
-	console.log('Collected asteroid');
+function game_hitVoidShard(_player, _object) {
+	console.log('Collected voidShard');
 
 	// Decrease lives by 1
 	lives--;
@@ -272,9 +277,14 @@ function game_hitAsteroid(_player, _object) {
 // Returns: N/A
 /*******************************************************/
 function game_displayScore() {
-	fill('white');
-	textSize(30);
-	text('Score: ' + score, 20, 40);
+    fill(255, 255, 0);
+    textSize(32);
+    textFont("Caudex");
+    textStyle(BOLD);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = "yellow";
+    text("Score: " + score, 20, 40);
+    drawingContext.shadowBlur = 0;
 }
 
 /*******************************************************/
@@ -285,9 +295,14 @@ function game_displayScore() {
 // Returns: N/A
 /*******************************************************/
 function game_displayLives() {
-	fill('white');
-	textSize(30);
-	text('Lives: ' + lives, windowWidth/2 - windowWidth/10, 40);
+	fill(255, 255, 0);
+    textSize(32);
+    textFont("Caudex");
+    textStyle(BOLD);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = "yellow";
+    text("Lives: " + lives, 20, 40);
+    drawingContext.shadowBlur = 0; // Reset
 }
 
 /*******************************************************/
@@ -310,17 +325,17 @@ function game_failObjectCollection() {
 }
 
 /*******************************************************/
-// game_asteroidPass()
+// game_voidShardPass()
 // Called in draw loop
-// Checks if asteroid has passed player, and if so deletes it
+// Checks if voidShard has passed player, and if so deletes it
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-function game_asteroidPass() {
-	for (let i=0; i<asteroidGroup.length; i++) {
-		if (asteroidGroup[i].y > windowHeight) {
-			asteroidGroup[i].remove();
-			console.log(asteroidGroup[i] + ' passed');
+function game_voidShardPass() {
+	for (let i=0; i<voidShardGroup.length; i++) {
+		if (voidShardGroup[i].y > windowHeight) {
+			voidShardGroup[i].remove();
+			console.log(voidShardGroup[i] + ' passed');
 		}
 	}
 }
