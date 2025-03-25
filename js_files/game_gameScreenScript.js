@@ -23,7 +23,9 @@ let collectibleGravity = sessionStorage.getItem('fallSpeed');
 
 // VoidShards
 let voidShardSpawnRateMax = 10000;
-let dangerSpawnRate = sessionStorage.getItem('dangerSpawnRate')
+let dangerSpawnRate = sessionStorage.getItem('dangerSpawnRate');
+let shakeIntensity = 0;
+let glitch = false;
 
 /*******************************************************/
 // Constants
@@ -103,6 +105,13 @@ function draw() {
 
 	// Spawn falling objects that player avoids
 	game_spawnDangerousObjects();
+
+	// Apply shake using translate() if player collides with a shard
+    translate(random(-shakeIntensity, shakeIntensity), random(-shakeIntensity, shakeIntensity));
+
+	if (glitch == true) {
+		game_glitch();
+	}
 
 	// Move player sprite
 	game_movePlayer();
@@ -208,7 +217,7 @@ function game_spawnCollectibleObjects() {
 /*******************************************************/
 function game_spawnDangerousObjects() {
 	// Creates voidShards for player to avoid
-	if (collectibleSpawnRate >= 50) {
+	if (dangerSpawnRate >= 50) {
 		if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
 			let voidShard = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
 			voidShard.image = shardImage;
@@ -271,20 +280,66 @@ function game_hitVoidShard(_player, _object) {
 	lives--;
 
 	// Display danger feedback
-	for (let i=0; i<random(8, 20); i++) {
-		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+	// Create some particles that kinda make the game look better
+    for (let i=0; i<random(8, 20); i++) {
+        let particle = createSprite(mouseX, mouseY, 3, 3, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
-		random(0, 1) < 0.5? particle.color = 'red' : particle.color ='black';
-		particle.bordered = false;
+        random(0, 1) < 0.5? particle.color ='red' : particle.color ='black';
         particle.life = 30;
-	}
+    }
 
-	
+	// Flash the background dark and slowly fade the background back to normal
+	document.body.style.background = '#c21206';
+	setTimeout(() => {
+		document.body.style.background = '';
+	}, 100);
+
+	// Start screen shake 
+    shakeIntensity = 10;
+    setTimeout(() => {
+        shakeIntensity = 0;
+    }, 300);
+
+	// Glitch the player
+	glitch = true;
+
+	setTimeout(() => {
+		glitch = false;
+        _player.scale = 1;
+        _player.visible = true;
+	}, 300);
 
 	// Remove the object from  the game
 	_object.remove();
 }
+
+/*******************************************************/
+// game_glitch()
+// Called when player collides with void shard
+// Displays feedback for collision with void shard
+// Input: The player object
+// Returns: N/A
+/*******************************************************/
+
+function game_glitch(_player) { 
+	let gltichDuration = 100;
+	let gltichStartTime = millis();
+	if (millis() - gltichStartTime < gltichDuration) {
+		player.x += random(-10, 10);
+		player.y += random(-10, 10);
+		player.scale = random(0.8, 1.2);
+		random(0, 1) < 0.5? player.visible = false : player.visible = true;
+	}
+}
+
+/*******************************************************/
+// game_voidShardFeedback()
+// Called when player collides with void shard
+// Displays feedback for collision with void shard
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
 
 /*******************************************************/
 // game_displayScore()

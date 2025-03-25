@@ -1,7 +1,9 @@
-
+:root {
+    --backgroundColorGradient: linear-gradient(to bottom, #7b5eff, #d6c2ff);
+}
 
 body {
-    background: linear-gradient(to bottom, #7b5eff, #d6c2ff);
+    background: var(--backgroundColorGradient);
     overflow: hidden;
 }
 
