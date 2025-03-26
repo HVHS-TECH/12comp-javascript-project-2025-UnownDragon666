@@ -37,6 +37,13 @@ const DANGERSPAWNRATE = [
     {spawnNum: 100, canSpawn: 'Danger'},
     {spawnNum: 150, canSpawn: "GOD'S WRATH"}
 ];
+const HEARTSPAWNRATE = [
+    {spawnNum: 50, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 30, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 20, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 10, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 0,  canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
+];
 
 /*******************************************************/
 // set_identifyDiffIndex()
@@ -84,7 +91,8 @@ function set_displayDifficultyInfo(event) {
         'Lives: ' + LIVES[diffIndex] + '<br>' + 
         'Star Speed: ' + FALLSPEED[diffIndex].speed + '<br>' + 
         'Star Density: ' + SPAWNDENSITY[diffIndex].density + '<br>' +
-        'Are you in danger: ' + DANGERSPAWNRATE[diffIndex].canSpawn;
+        'Are you in danger: ' + DANGERSPAWNRATE[diffIndex].canSpawn + '<br>' +
+        HEARTSPAWNRATE[diffIndex].canSpawn;
     
     // Check if button exists, if not, create it
     if (!document.getElementById('startButton')) {
@@ -117,6 +125,7 @@ function set_startGame() {
     sessionStorage.setItem('spawnChance', SPAWNDENSITY[diffIndex].spawnNum);
     sessionStorage.setItem('dangerSpawnRate', DANGERSPAWNRATE[diffIndex].spawnNum);
     sessionStorage.setItem('difficulty', diffSelectValue)
+    sessionStorage.setItem('heartSpawnRate', HEARTSPAWNRATE[diffIndex].spawnNum);
 
     // Go to game page
     window.location.assign('../html_files/game_gameplayScreen.html');

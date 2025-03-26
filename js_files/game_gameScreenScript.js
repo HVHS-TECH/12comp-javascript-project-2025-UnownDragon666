@@ -9,6 +9,7 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 /*******************************************************/
 // Variables
 /*******************************************************/
+// Player and gameplay
 let player;
 let gamestate = 'play';
 let score = 0;
@@ -20,7 +21,11 @@ let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
 let collectibleGravity = sessionStorage.getItem('fallSpeed');
-let spawnTimer = 100;
+
+// Hearts
+let heartGroup;
+let heartSpawnRate = sessionStorage.getItem('heartSpawnRate');
+let heartSpawnRateMax = 5000;
 
 // VoidShards
 let voidShardSpawnRateMax = 10000;
@@ -37,6 +42,8 @@ const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
 const COLLECTIBLERADIUS = 20;
 const VOIDSHARDRADIUS = 30;
+const SPEEDBOOST = 2.5;
+const ORIGINALLIVES = sessionStorage.getItem('lives');
 
 /*******************************************************/
 // preload()
@@ -74,6 +81,7 @@ function setup() {
 	// Create groups for falling objects
 	collectibleGroup = new Group();
 	voidShardGroup = new Group();
+	heartGroup = new Group();
 
 	// Walls of play area sprite creation
 	game_generateWalls();
@@ -89,6 +97,9 @@ function setup() {
 	
 	// Game voidShard collect logic
 	player.collides(voidShardGroup, game_hitVoidShard);
+
+	// Game heart collect logic
+	player.collides(heartGroup, game_collectedHeart);
 }
 	
 /*******************************************************/
@@ -102,11 +113,10 @@ function draw() {
 	background('#170e36')
 
 	// Spawn falling objects that give points
-	if (spawnTimer > 0) {
-		spawnTimer--;
-	} else if (spawnTimer == 0) {
-		game_spawnCollectibleObjects();
-	}
+	game_spawnCollectibleObjects();
+
+	// Spawn falling objects that give lives
+	lives < ORIGINALLIVES? game_spawnMercyCollectibleObjects(): null;
 
 	// Spawn falling objects that player avoids
 	game_spawnDangerousObjects();
@@ -176,7 +186,7 @@ function game_movePlayer() {
 
 	// Boost player speed when space is held down
 	if (kb.pressing('space')) {
-		player.vel.x *= 2;
+		player.vel.x *= SPEEDBOOST;
 	}
 
 	if (kb.released('space')) {
@@ -211,8 +221,25 @@ function game_spawnCollectibleObjects() {
 		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
 		starCollectible.image = starImage;
 		collectibleGroup.add(starCollectible);
-		spawnTimer = randSpawnRateMax / collectibleSpawnRate;
 	}
+}
+
+/*******************************************************/
+// game_spawnMercyCollectibleObjects()
+// Called in draw loop
+// Creates falling collectibles for player to collect
+// Collectible objects grant lives
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_spawnMercyCollectibleObjects() {
+    // Creates hearts for player to collect
+    if (random(0, heartSpawnRateMax) < heartSpawnRate) {
+        console.log('heart spawned')
+        let heartCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        //heartCollectible.image = heartImage;
+        heartGroup.add(heartCollectible);
+    }
 }
 
 /*******************************************************/
@@ -323,6 +350,32 @@ function game_hitVoidShard(_player, _object) {
 }
 
 /*******************************************************/
+// game_collectedHeart()
+// Called during player collision with heartGroup
+// Increases lives and removes the object that collided with player
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_collectedHeart(_player, _object) {
+	console.log('Collected heart');
+
+    // Increase lives by 1
+    lives++;
+
+    // Display heart feedback
+    for (let i=0; i<random(8, 20); i++) {
+        let particle = createSprite(mouseX, mouseY, 3, 3, 'n');
+        particle.vel.x = random(-3, 3);
+        particle.vel.y = random(-3, 3);
+        particle.color = 'green';
+        particle.life = 30;
+    }
+
+    // Remove the object from the game
+    _object.remove();
+}
+
+/*******************************************************/
 // game_glitch()
 // Called when player collides with void shard
 // Displays feedback for collision with void shard
@@ -391,6 +444,10 @@ function game_failObjectCollection() {
 		if (collectibleGroup[i].y > windowHeight) {
 			collectibleGroup[i].remove();
 			console.log('Dropped ' + collectibleGroup[i]);
+
+			// Game feedback for dropping collectible
+
+
 			return true;
 		} else {
 			return false;
