@@ -20,6 +20,7 @@ let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
 let collectibleGravity = sessionStorage.getItem('fallSpeed');
+let spawnTimer = 100;
 
 // VoidShards
 let voidShardSpawnRateMax = 10000;
@@ -101,7 +102,11 @@ function draw() {
 	background('#170e36')
 
 	// Spawn falling objects that give points
-	game_spawnCollectibleObjects();
+	if (spawnTimer > 0) {
+		spawnTimer--;
+	} else if (spawnTimer == 0) {
+		game_spawnCollectibleObjects();
+	}
 
 	// Spawn falling objects that player avoids
 	game_spawnDangerousObjects();
@@ -169,8 +174,9 @@ function game_movePlayer() {
         player.vel.x = 0;
     }
 
+	// Boost player speed when space is held down
 	if (kb.pressing('space')) {
-		player.vel.x *= 1.75;
+		player.vel.x *= 2;
 	}
 
 	if (kb.released('space')) {
@@ -205,6 +211,7 @@ function game_spawnCollectibleObjects() {
 		let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
 		starCollectible.image = starImage;
 		collectibleGroup.add(starCollectible);
+		spawnTimer = randSpawnRateMax / collectibleSpawnRate;
 	}
 }
 
@@ -308,6 +315,7 @@ function game_hitVoidShard(_player, _object) {
 		glitch = false;
         _player.scale = 1;
         _player.visible = true;
+		_player.y = windowHeight - 100;
 	}, 300);
 
 	// Remove the object from  the game
@@ -318,11 +326,11 @@ function game_hitVoidShard(_player, _object) {
 // game_glitch()
 // Called when player collides with void shard
 // Displays feedback for collision with void shard
-// Input: The player object
+// Input: N/A
 // Returns: N/A
 /*******************************************************/
 
-function game_glitch(_player) { 
+function game_glitch() { 
 	let gltichDuration = 100;
 	let gltichStartTime = millis();
 	if (millis() - gltichStartTime < gltichDuration) {
@@ -332,14 +340,6 @@ function game_glitch(_player) {
 		random(0, 1) < 0.5? player.visible = false : player.visible = true;
 	}
 }
-
-/*******************************************************/
-// game_voidShardFeedback()
-// Called when player collides with void shard
-// Displays feedback for collision with void shard
-// Input: N/A
-// Returns: N/A
-/*******************************************************/
 
 /*******************************************************/
 // game_displayScore()

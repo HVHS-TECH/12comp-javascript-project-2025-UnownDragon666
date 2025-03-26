@@ -24,11 +24,11 @@ const FALLSPEED = [
     {speedNum: 15, speed: "DIVINE"}
 ];
 const SPAWNDENSITY = [
-    {spawnNum: 40, density: 'Low'}, 
-    {spawnNum: 45, density: 'Medium'}, 
-    {spawnNum: 50, density: 'High'}, 
-    {spawnNum: 60, density: 'Crazy'}, 
-    {spawnNum: 100, density: 'RAIN OF GOD'}
+    {spawnNum: 50, density: 'Low'}, 
+    {spawnNum: 60, density: 'Medium'}, 
+    {spawnNum: 80, density: 'High'}, 
+    {spawnNum: 100, density: 'Crazy'}, 
+    {spawnNum: 120, density: 'RAIN OF GOD'}
 ];
 const DANGERSPAWNRATE = [
     {spawnNum: 0, canSpawn: 'Safe'},
