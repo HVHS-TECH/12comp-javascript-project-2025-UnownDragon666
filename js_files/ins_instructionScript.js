@@ -24,7 +24,7 @@ console.log('%cins_instructionScript running', 'color: blue; background-color: w
 /*******************************************************/
 function ins_denyHelp() {
     if (confirm('Are you sure?') == true) {
-        window.location.replace('../index.html');
+        window.location.href = 'https://hmpg.net/';
     }
 }
 
