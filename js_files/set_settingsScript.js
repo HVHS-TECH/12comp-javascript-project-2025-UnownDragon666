@@ -15,7 +15,7 @@ let diffSelectValue;
 /*******************************************************/
 // Constants
 /*******************************************************/
-const LIVES = [10, 5, 3, 1, 1];
+const LIVES = [10, 5, 3, 2, 1];
 const FALLSPEED = [
     {speedNum: 4, speed: 'Slow'},
     {speedNum: 7, speed: 'Medium'}, 
@@ -38,10 +38,10 @@ const DANGERSPAWNRATE = [
     {spawnNum: 150, canSpawn: "GOD'S WRATH"}
 ];
 const HEARTSPAWNRATE = [
-    {spawnNum: 50, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 30, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 20, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 25, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 15, canSpawn: 'Collect hearts to replenish lives'},
     {spawnNum: 10, canSpawn: 'Collect hearts to replenish lives'},
+    {spawnNum: 5, canSpawn: 'Collect hearts to replenish lives'},
     {spawnNum: 0,  canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
 ];
 

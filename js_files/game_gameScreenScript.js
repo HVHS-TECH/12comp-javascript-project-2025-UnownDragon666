@@ -63,7 +63,8 @@ function preload() {
 	starImage = loadImage('../assets/collectibleSprite.png');
 	// shardImage made by me with Piskel
 	shardImage = loadImage('../assets/voidShardSprite.png');
-
+	// heartImage made by me with Piskel
+	heartImage = loadImage('../assets/heartSprite.png');
 }
 
 /*******************************************************/
@@ -237,7 +238,8 @@ function game_spawnMercyCollectibleObjects() {
     if (random(0, heartSpawnRateMax) < heartSpawnRate) {
         console.log('heart spawned')
         let heartCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
-        //heartCollectible.image = heartImage;
+        heartCollectible.image = heartImage;
+		heartCollectible.scale = 0.5;
         heartGroup.add(heartCollectible);
     }
 }
