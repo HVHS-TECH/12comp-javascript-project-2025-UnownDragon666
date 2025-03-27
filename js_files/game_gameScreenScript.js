@@ -142,6 +142,9 @@ function draw() {
 	// Check if voidShard has passed and delete it
 	game_voidShardPass();
 
+	// Check if heart has passed and delete it
+	game_heartPass();
+
 	// Check if lives are 0, if so change page to end screen.
 	if (lives == 0) {
 		game_gameOver();
@@ -318,7 +321,7 @@ function game_hitVoidShard(_player, _object) {
 	// Display danger feedback
 	// Create some particles that kinda make the game look better
     for (let i=0; i<random(8, 20); i++) {
-        let particle = createSprite(mouseX, mouseY, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
         random(0, 1) < 0.5? particle.color ='red' : particle.color ='black';
@@ -361,15 +364,15 @@ function game_hitVoidShard(_player, _object) {
 function game_collectedHeart(_player, _object) {
 	console.log('Collected heart');
 
-    // Increase lives by 1
-    lives++;
+    // Increase lives by 1 if lives are below the baseLife
+	lives < ORIGINALLIVES? lives++ : null;
 
     // Display heart feedback
     for (let i=0; i<random(8, 20); i++) {
-        let particle = createSprite(mouseX, mouseY, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
-        particle.color = 'green';
+        particle.color = 'lime';
         particle.life = 30;
     }
 
@@ -448,13 +451,42 @@ function game_failObjectCollection() {
 			console.log('Dropped ' + collectibleGroup[i]);
 
 			// Game feedback for dropping collectible
+			document.body.style.background = '#c21206';
+			setTimeout(() => {
+				document.body.style.background = '';
+			}, 100);
 
+			// Start screen shake 
+			shakeIntensity = 10;
+			setTimeout(() => {
+				shakeIntensity = 0;
+			}, 300);
+
+			setTimeout(() => {
+				
+			});
 
 			return true;
 		} else {
 			return false;
 		}
 	}
+}
+
+/*******************************************************/
+// game_heartPass()
+// Called in draw loop
+// Checks if heartCollectible has passed player, and if so deletes it
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_heartPass() {
+	for (let i=0; i<heartGroup.length; i++) {
+        if (heartGroup[i].y > windowHeight) {
+            heartGroup[i].remove();
+            console.log(heartGroup[i] +'passed');
+        }
+    }
 }
 
 /*******************************************************/
