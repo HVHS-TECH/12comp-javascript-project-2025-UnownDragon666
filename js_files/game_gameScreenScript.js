@@ -39,7 +39,7 @@ let bonusGroup;
 let bonusSpawnRate = 10;
 let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
-let bonusDuration = 1000;
+let bonusDuration = 10000;
 
 /*******************************************************/
 // Constants
@@ -180,6 +180,12 @@ function draw() {
 	// Check if lives are 0, if so change page to end screen.
 	if (lives == 0) {
 		game_gameOver();
+	}
+
+	if (bonusSpawnRate > 0) {
+		console.log('Will spawn')
+	}	else {
+		console.log('Will not spawn')
 	}
 }
 
@@ -623,7 +629,7 @@ function game_collectedBonus(_player, _object) {
 	}
 
 	// Start bonus timer
-	bonusTimer = 1000;
+	bonusTimer = bonusDuration;
 	bonusSpawnRate = 0;
 	// Set a timeout to reset the bonus spawn rate after the duration
 	setTimeout(() => {
