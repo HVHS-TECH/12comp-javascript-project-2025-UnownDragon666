@@ -21,6 +21,7 @@ let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
 let collectibleGravity = sessionStorage.getItem('fallSpeed');
+let scoreMultiplier = 1;
 
 // Hearts
 let heartGroup;
@@ -33,6 +34,13 @@ let dangerSpawnRate = sessionStorage.getItem('dangerSpawnRate');
 let shakeIntensity = 0;
 let glitch = false;
 
+// Bonus
+let bonusGroup;
+let bonusSpawnRate = 10;
+let bonusSpawnRateMax = 10000;
+let bonusTimer = 0;
+let bonusDuration = 1000;
+
 /*******************************************************/
 // Constants
 /*******************************************************/
@@ -44,6 +52,13 @@ const COLLECTIBLERADIUS = 20;
 const VOIDSHARDRADIUS = 30;
 const SPEEDBOOST = 2.5;
 const ORIGINALLIVES = sessionStorage.getItem('lives');
+const SCOREGAINED = 1;
+
+/*********************************************************************************************************************************************************/
+// P5 Play Functions
+//
+//
+/*********************************************************************************************************************************************************/
 
 /*******************************************************/
 // preload()
@@ -65,6 +80,8 @@ function preload() {
 	shardImage = loadImage('../assets/voidShardSprite.png');
 	// heartImage made by me with Piskel
 	heartImage = loadImage('../assets/heartSprite.png');
+	// bonusImage made by me with Piskel
+	bonusImage = loadImage('../assets/bonusSprite.png');
 }
 
 /*******************************************************/
@@ -83,6 +100,7 @@ function setup() {
 	collectibleGroup = new Group();
 	voidShardGroup = new Group();
 	heartGroup = new Group();
+	bonusGroup = new Group();
 
 	// Walls of play area sprite creation
 	game_generateWalls();
@@ -96,11 +114,14 @@ function setup() {
 	// Game collect logic
 	player.collides(collectibleGroup, game_collectedObject);
 	
-	// Game voidShard collect logic
+	// Game voidShard collision logic
 	player.collides(voidShardGroup, game_hitVoidShard);
 
 	// Game heart collect logic
 	player.collides(heartGroup, game_collectedHeart);
+
+	// Game bonus collect logic
+	player.collides(bonusGroup, game_collectedBonus);
 }
 	
 /*******************************************************/
@@ -121,6 +142,17 @@ function draw() {
 
 	// Spawn falling objects that player avoids
 	game_spawnDangerousObjects();
+
+	// Spawn bonus objects that give score multipliers
+	game_createBonusObjects();
+
+	// Bonus period logic
+	if (bonusTimer > 0) {
+		bonusTimer--;
+		game_bonusPeriod();
+	} else if (bonusTimer <= 0) {
+		game_returnToNormal();
+	}
 
 	// Apply shake using translate() if player collides with a shard
     translate(random(-shakeIntensity, shakeIntensity), random(-shakeIntensity, shakeIntensity));
@@ -151,6 +183,12 @@ function draw() {
 	}
 }
 
+/*********************************************************************************************************************************************************/
+// Sprite Creation Functions
+//
+//
+/*********************************************************************************************************************************************************/
+
 /*******************************************************/
 // game_createPlayerSprite()
 // Called in setup()
@@ -166,49 +204,6 @@ function game_createPlayerSprite() {
 
 	// Set player sprite collision
 	player.setCollider = 'rectangle', 0, 0, PLAYERWIDTH/4, PLAYERHEIGHT/4;
-}
-
-/*******************************************************/
-// game_movePlayer()
-// Called in draw()
-// Moves the player sprite
-// Input: N/A
-// Returns: N/A
-/*******************************************************/
-function game_movePlayer() {
-	// Check for left and right movement
-	if (kb.pressing('a') || kb.pressing('left')) {
-        player.vel.x = -1 * MOVEMENTSPEED;
-    } else if (kb.pressing('d') || kb.pressing('right')) {
-        player.vel.x = MOVEMENTSPEED;
-    }
-
-	// Stop player movement when key released
-    if (kb.released('a') || kb.released('d') || kb.released('left') || kb.released('right')) {
-        player.vel.x = 0;
-    }
-
-	// Boost player speed when space is held down
-	if (kb.pressing('space')) {
-		player.vel.x *= SPEEDBOOST;
-	}
-
-	if (kb.released('space')) {
-		player.vel.x = 0;
-	}
-
-	// Check player position to ensure they don't go off screen
-	// Loop around board when player goes off screen. ^^
-		// Right of screen
-	if (player.x >= windowWidth/2 + PLAYERWIDTH/2) {
-		player.vel.x = 0;
-		player.x = -1 * PLAYERWIDTH/2 + 2;
-	}
-		// Left of screen
-	if (player.x <= 0 - PLAYERWIDTH/2) {
-		player.vel.x = 0;
-		player.x = windowWidth/2 + PLAYERWIDTH/2 - 2;
-	}
 }
 
 /*******************************************************/
@@ -267,6 +262,23 @@ function game_spawnDangerousObjects() {
 }
 
 /*******************************************************/
+// game_createBonusObjects()
+// Called in draw loop
+// Creates the bonus objects for player to collect
+// Bonus objects grant a score multiplier for a short time
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_createBonusObjects() {
+	if (random(0, bonusSpawnRateMax) < bonusSpawnRate) {
+		let bonusCollectible = new Sprite(random(SPAWNMARGIN, windowWidth/2-SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+		bonusCollectible.image = bonusImage;
+		bonusCollectible.scale = 0.5;
+		bonusGroup.add(bonusCollectible);
+	}
+}
+
+/*******************************************************/
 // game_generateWalls()
 // Called in draw loop
 // Creates the falling collectibles for player to collect
@@ -280,161 +292,95 @@ function game_generateWalls() {
 	rightWall.color = 'black';
 }
 
-/*******************************************************/
-// game_collectedObject()
-// Called during player collision with collectibleGroup
-// Increases score and removes the object that collided with player
-// Input: _player, _object (object which player collided with)
-// Returns: N/A
-/*******************************************************/
-function game_collectedObject(_player, _object) {
-	console.log("Object collected");
-	// Increase player's score
-	score++;
-	
-	// Create some particles that kinda make the game look better (feedback)
-	for (let i=0; i<random(8, 20); i++) {
-		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
-		particle.vel.x = random(-3, 3);
-		particle.vel.y = random(-3, 3);
-		particle.color = 'yellow';
-		particle.life = 30;
-	}
-
-	// Remove the object from the game
-	_object.remove();
-}
+/*********************************************************************************************************************************************************/
+// Game Logic Functions
+//
+//
+/*********************************************************************************************************************************************************/
 
 /*******************************************************/
-// game_hitVoidShard()
-// Called during player collision with voidShardGroup
-// Decreases life and removes the object that collided with player
-// Input: _player, _object (object which player collided with)
-// Returns: N/A
-/*******************************************************/
-function game_hitVoidShard(_player, _object) {
-	console.log('Collected voidShard');
-
-	// Decrease lives by 1
-	lives--;
-
-	// Display danger feedback
-	// Create some particles that kinda make the game look better
-    for (let i=0; i<random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
-        random(0, 1) < 0.5? particle.color ='red' : particle.color ='black';
-        particle.life = 30;
-    }
-
-	// Flash the background dark and slowly fade the background back to normal
-	document.body.style.background = '#c21206';
-	setTimeout(() => {
-		document.body.style.background = '';
-	}, 100);
-
-	// Start screen shake 
-    shakeIntensity = 10;
-    setTimeout(() => {
-        shakeIntensity = 0;
-    }, 300);
-
-	// Glitch the player
-	glitch = true;
-
-	setTimeout(() => {
-		glitch = false;
-        _player.scale = 1;
-        _player.visible = true;
-		_player.y = windowHeight - 100;
-	}, 300);
-
-	// Remove the object from  the game
-	_object.remove();
-}
-
-/*******************************************************/
-// game_collectedHeart()
-// Called during player collision with heartGroup
-// Increases lives and removes the object that collided with player
-// Input: _player, _object (object which player collided with)
-// Returns: N/A
-/*******************************************************/
-function game_collectedHeart(_player, _object) {
-	console.log('Collected heart');
-
-    // Increase lives by 1 if lives are below the baseLife
-	lives < ORIGINALLIVES? lives++ : null;
-
-    // Display heart feedback
-    for (let i=0; i<random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
-        particle.color = 'lime';
-        particle.life = 30;
-    }
-
-    // Remove the object from the game
-    _object.remove();
-}
-
-/*******************************************************/
-// game_glitch()
-// Called when player collides with void shard
-// Displays feedback for collision with void shard
+// game_movePlayer()
+// Called in draw()
+// Moves the player sprite
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
+function game_movePlayer() {
+	// Check for left and right movement
+	if (kb.pressing('a') || kb.pressing('left')) {
+        player.vel.x = -1 * MOVEMENTSPEED;
+    } else if (kb.pressing('d') || kb.pressing('right')) {
+        player.vel.x = MOVEMENTSPEED;
+    }
 
-function game_glitch() { 
-	let gltichDuration = 100;
-	let gltichStartTime = millis();
-	if (millis() - gltichStartTime < gltichDuration) {
-		player.x += random(-10, 10);
-		player.y += random(-10, 10);
-		player.scale = random(0.8, 1.2);
-		random(0, 1) < 0.5? player.visible = false : player.visible = true;
+	// Stop player movement when key released
+    if (kb.released('a') || kb.released('d') || kb.released('left') || kb.released('right')) {
+        player.vel.x = 0;
+    }
+
+	// Boost player speed when space is held down
+	if (kb.pressing('space')) {
+		player.vel.x *= SPEEDBOOST;
+	}
+
+	if (kb.released('space')) {
+		player.vel.x = 0;
+	}
+
+	// Check player position to ensure they don't go off screen
+	// Loop around board when player goes off screen. ^^
+		// Right of screen
+	if (player.x >= windowWidth/2 + PLAYERWIDTH/2) {
+		player.vel.x = 0;
+		player.x = -1 * PLAYERWIDTH/2 + 2;
+	}
+		// Left of screen
+	if (player.x <= 0 - PLAYERWIDTH/2) {
+		player.vel.x = 0;
+		player.x = windowWidth/2 + PLAYERWIDTH/2 - 2;
 	}
 }
 
 /*******************************************************/
-// game_displayScore()
+// game_bonusPeriod()
 // Called in draw loop
-// Displays score
-// Drawing context code by ChatGPT
+// Begins the bonus period
+// The bonus period is a short time where the player gets a score multiplier
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-function game_displayScore() {
-    fill(255, 255, 0);
-    textSize(32);
-    textFont("Caudex");
-    textStyle(BOLD);
-    drawingContext.shadowBlur = 10;
-    drawingContext.shadowColor = "yellow";
-    text("Score: " + score, 20, 40);
-    drawingContext.shadowBlur = 0;
+function game_bonusPeriod() {
+	// Display bonus feedback
+	// Change background to indicate bonus period
+	// Display bonus text
+	document.body.style.background = 'linear-gradient(to bottom, #ff7e5f, #feb47b)';
+
+	// Disable spawning of voidShards
+
+	// Disable losing lives
+	// Increase spawn rate of collectibles
+	// Increase scoreMultiplier to increase score gained
+	scoreMultiplier = 5;
 }
 
 /*******************************************************/
-// game_displayLives()
+// game_returnToNormal()
 // Called in draw loop
-// Displays current player lives
-// Drawing context code by ChatGPT
-// Input: N/A
+// Ends the bonus period
+// Returns game to normal state
+// Input: N/A	
 // Returns: N/A
 /*******************************************************/
-function game_displayLives() {
-	fill(255, 255, 0);
-    textSize(32);
-    textFont("Caudex");
-    textStyle(BOLD);
-    drawingContext.shadowBlur = 10;
-    drawingContext.shadowColor = "yellow";
-    text("Lives: " + lives, 20, 80);
-    drawingContext.shadowBlur = 0;
+function game_returnToNormal() {
+	// Reset background to normal
+	document.body.style.background = '';
+
+	// Enable spawning of voidShards
+
+	// Enable losing lives
+	// Reset spawn rate of collectibles
+	// Reset scoreMultiplier to normal state
+	scoreMultiplier = 1;
 }
 
 /*******************************************************/
@@ -531,6 +477,225 @@ function game_gameOver() {
 	window.location.href = '../html_files/end_gameScoreScreen.html';
 }
 
+/*********************************************************************************************************************************************************/
+// Game Collision Logic Functions
+//
+//
+/*********************************************************************************************************************************************************/
+
+/*******************************************************/
+// game_collectedObject()
+// Called during player collision with collectibleGroup
+// Increases score and removes the object that collided with player
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_collectedObject(_player, _object) {
+	console.log("Object collected");
+	// Increase player's score
+	score += SCOREGAINED * scoreMultiplier;
+	
+	// Create some particles that kinda make the game look better (feedback)
+	for (let i=0; i<random(8, 20); i++) {
+		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+		particle.vel.x = random(-3, 3);
+		particle.vel.y = random(-3, 3);
+		particle.color = 'yellow';
+		particle.life = 30;
+	}
+
+	// Remove the object from the game
+	_object.remove();
+}
+
+/*******************************************************/
+// game_hitVoidShard()
+// Called during player collision with voidShardGroup
+// Decreases life and removes the object that collided with player
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_hitVoidShard(_player, _object) {
+	console.log('Collected voidShard');
+
+	// Decrease lives by 1
+	lives--;
+
+	// Display danger feedback
+	// Create some particles that kinda make the game look better
+    for (let i=0; i<random(8, 20); i++) {
+        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        particle.vel.x = random(-3, 3);
+        particle.vel.y = random(-3, 3);
+        random(0, 1) < 0.5? particle.color ='red' : particle.color ='black';
+        particle.life = 30;
+    }
+
+	// Flash the background dark and slowly fade the background back to normal
+	document.body.style.background = '#c21206';
+	setTimeout(() => {
+		document.body.style.background = '';
+	}, 100);
+
+	// Start screen shake 
+    shakeIntensity = 10;
+    setTimeout(() => {
+        shakeIntensity = 0;
+    }, 300);
+
+	// Glitch the player
+	glitch = true;
+
+	setTimeout(() => {
+		glitch = false;
+        _player.scale = 1;
+        _player.visible = true;
+		_player.y = windowHeight - 100;
+	}, 300);
+
+	// Remove the object from  the game
+	_object.remove();
+}
+
+/*******************************************************/
+// game_collectedHeart()
+// Called during player collision with heartGroup
+// Increases lives and removes the object that collided with player
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_collectedHeart(_player, _object) {
+	console.log('Collected heart');
+
+    // Increase lives by 1 if lives are below the baseLife
+	lives < ORIGINALLIVES? lives++ : null;
+
+    // Display heart feedback
+    for (let i=0; i<random(8, 20); i++) {
+        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        particle.vel.x = random(-3, 3);
+        particle.vel.y = random(-3, 3);
+        particle.color = 'lime';
+        particle.life = 30;
+    }
+
+    // Remove the object from the game
+    _object.remove();
+}
+
+/*******************************************************/
+// game_collectedBonus()
+// Called during player collision with bonusGroup
+// Increases score and removes the object that collided with player
+// Starts bonus timer
+// Input: _player, _object (object which player collided with)
+// Returns: N/A
+/*******************************************************/
+function game_collectedBonus(_player, _object) {
+	console.log('Collected bonus!');
+
+	// Increase player's score
+	score += 5;
+
+	// Create some particles (feedback)
+	for (let i=0; i<random(8, 20); i++) {
+		let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+		particle.vel.x = random(-3, 3);
+		particle.vel.y = random(-3, 3);
+		let randColor = Math.floor(random(0, 7));
+		if (randColor == 1) {
+			particle.color = 'red';
+		} else if (randColor == 2) {
+			particle.color = 'orange';
+		} else if (randColor == 3) {
+			particle.color = 'yellow';
+		} else if (randColor == 4) {
+			particle.color = 'green';
+		} else if (randColor == 5) {
+			particle.color = 'blue';
+		} else if (randColor == 6) {
+			particle.color = 'purple';
+		} else {
+			particle.color = 'pink';
+		}
+		particle.scale = random(0.5, 1.5);
+		particle.life = 30;
+	}
+
+	// Start bonus timer
+	bonusTimer = 1000;
+	bonusSpawnRate = 0;
+	// Set a timeout to reset the bonus spawn rate after the duration
+	setTimeout(() => {
+		bonusSpawnRate = 10;
+	}, bonusDuration);
+
+	// Remove the object from the game
+	_object.remove();
+}
+
+/*******************************************************/
+// game_glitch()
+// Called when player collides with void shard
+// Displays feedback for collision with void shard
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_glitch() { 
+	let gltichDuration = 100;
+	let gltichStartTime = millis();
+	if (millis() - gltichStartTime < gltichDuration) {
+		player.x += random(-10, 10);
+		player.y += random(-10, 10);
+		player.scale = random(0.8, 1.2);
+		random(0, 1) < 0.5? player.visible = false : player.visible = true;
+	}
+}
+
+/*********************************************************************************************************************************************************/
+// Game UI Elements
+//
+//
+/*********************************************************************************************************************************************************/
+
+/*******************************************************/
+// game_displayScore()
+// Called in draw loop
+// Displays score
+// Drawing context code by ChatGPT
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_displayScore() {
+    fill(255, 255, 0);
+    textSize(32);
+    textFont("Caudex");
+    textStyle(BOLD);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = "yellow";
+    text("Score: " + score, 20, 40);
+    drawingContext.shadowBlur = 0;
+}
+
+/*******************************************************/
+// game_displayLives()
+// Called in draw loop
+// Displays current player lives
+// Drawing context code by ChatGPT
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_displayLives() {
+	fill(255, 255, 0);
+    textSize(32);
+    textFont("Caudex");
+    textStyle(BOLD);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = "yellow";
+    text("Lives: " + lives, 20, 80);
+    drawingContext.shadowBlur = 0;
+}
+
 /*******************************************************/
 // game_createStars()
 // Called by body onload
@@ -557,6 +722,12 @@ function game_createStars(_numStars) {
         document.body.appendChild(star);
     }
 }
+
+/*********************************************************************************************************************************************************/
+// Miscellaneous Functions
+//
+//
+/*********************************************************************************************************************************************************/
 
 /*******************************************************/
 // game_returnHome()
