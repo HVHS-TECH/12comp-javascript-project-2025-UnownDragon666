@@ -39,7 +39,8 @@ let bonusGroup;
 let bonusSpawnRate = 10;
 let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
-let bonusDuration = 10000;
+let bonusDuration = 210; // 7 seconds in frames (30 FPS)
+let bonusPeriod = false;
 
 /*******************************************************/
 // Constants
@@ -53,6 +54,7 @@ const VOIDSHARDRADIUS = 30;
 const SPEEDBOOST = 2.5;
 const ORIGINALLIVES = sessionStorage.getItem('lives');
 const SCOREGAINED = 1;
+const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
 
 /*********************************************************************************************************************************************************/
 // P5 Play Functions
@@ -362,9 +364,14 @@ function game_bonusPeriod() {
 	document.body.style.background = 'linear-gradient(to bottom, #ff7e5f, #feb47b)';
 
 	// Disable spawning of voidShards
+	dangerSpawnRate = 0;
 
 	// Disable losing lives
+	bonusPeriod = true;
+
 	// Increase spawn rate of collectibles
+	collectibleSpawnRate *= 4;
+
 	// Increase scoreMultiplier to increase score gained
 	scoreMultiplier = 5;
 }
@@ -382,9 +389,14 @@ function game_returnToNormal() {
 	document.body.style.background = '';
 
 	// Enable spawning of voidShards
+	dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
 
 	// Enable losing lives
+	bonusPeriod = false;
+
 	// Reset spawn rate of collectibles
+	collectibleSpawnRate /= 4;
+
 	// Reset scoreMultiplier to normal state
 	scoreMultiplier = 1;
 }
@@ -465,7 +477,8 @@ function game_voidShardPass() {
 // Returns: N/A
 /*******************************************************/
 function game_loseLife(_dropped) {
-	if (_dropped == true) {
+	if (_dropped == true && bonusPeriod == false) {
+		console.log('Player lost life');
 		lives--
 	}
 }
@@ -634,7 +647,7 @@ function game_collectedBonus(_player, _object) {
 	// Set a timeout to reset the bonus spawn rate after the duration
 	setTimeout(() => {
 		bonusSpawnRate = 10;
-	}, bonusDuration);
+	}, (bonusDuration / 30) * 1000); // Convert frames to milliseconds
 
 	// Remove the object from the game
 	_object.remove();
