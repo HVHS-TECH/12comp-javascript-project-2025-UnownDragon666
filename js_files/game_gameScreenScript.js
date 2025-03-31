@@ -11,10 +11,12 @@ console.log("%cgame_gameScreenScript running", "color: red; backgroundcolor: red
 /*******************************************************/
 // Player and gameplay
 let player;
-let gamestate = 'play';
+let gamestate = 'normal';
 let score = 0;
 let lives = sessionStorage.getItem('lives');
 let difficulty = sessionStorage.getItem('difficulty');
+
+
 
 // Collectibles
 let collectibleGroup;
@@ -41,6 +43,15 @@ let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
 let bonusDuration = 210; // 7 seconds in frames (30 FPS)
 let bonusPeriod = false;
+let spawnRateHasIncreased = false;
+
+// Combo
+let combo = 0;
+let comboFreeze = false; // Prevents combo from increasing when true
+let lastComboTime = 0; // Last time a combo increased
+let comboAlpha = 1;    // Opacity for fade-out effect
+let glowPulsing = 0;   // Animation effect
+let baseFontSize = 30; // Base font size
 
 /*******************************************************/
 // Constants
@@ -166,9 +177,10 @@ function draw() {
     // Move player sprite
     game_movePlayer();
 
-    // Show player score and lives
+    // Show player score, combo and lives
     game_displayScore();
     game_displayLives();
+	game_displayCombo();
 
     // Check for failure to collect object and removes life
     game_loseLife(game_failObjectCollection());
@@ -182,12 +194,6 @@ function draw() {
     // Check if lives are 0, if so change page to end screen.
     if (lives == 0) {
         game_gameOver();
-    }
-
-    if (bonusSpawnRate > 0) {
-        console.log('Will spawn')
-    } else {
-        console.log('Will not spawn')
     }
 }
 
@@ -222,6 +228,7 @@ function game_createPlayerSprite() {
 // Returns: N/A
 /*******************************************************/
 function game_spawnCollectibleObjects() {
+	console.log('Spawn rate: ' + collectibleSpawnRate);
     // Creates collectible sprites
     if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
         console.log('collectible spawned')
@@ -369,11 +376,18 @@ function game_bonusPeriod() {
     // Disable losing lives
     bonusPeriod = true;
 
+	comboFreeze = true; // Prevents combo from decreasing when true
+	
     // Increase spawn rate of collectibles
-    collectibleSpawnRate *= 4;
+	if (spawnRateHasIncreased == false) {
+		collectibleSpawnRate *= 16;
+		spawnRateHasIncreased = true;
+	}
 
     // Increase scoreMultiplier to increase score gained
     scoreMultiplier = 5;
+
+	gamestate = 'bonus';
 }
 
 /*******************************************************/
@@ -385,20 +399,33 @@ function game_bonusPeriod() {
 // Returns: N/A
 /*******************************************************/
 function game_returnToNormal() {
-    // Reset background to normal
-    document.body.style.background = '';
+	if (gamestate == 'bonus') {
+		// Reset background to normal
+		document.body.style.background = '';
 
-    // Enable spawning of voidShards
-    dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
+		// Enable spawning of voidShards
+		dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
 
-    // Enable losing lives
-    bonusPeriod = false;
+		// Reset spawn rate of collectibles
+		collectibleSpawnRate /= 16;
 
-    // Reset spawn rate of collectibles
-    collectibleSpawnRate /= 4;
+		// Reset scoreMultiplier to normal state
+		scoreMultiplier = 1;
 
-    // Reset scoreMultiplier to normal state
-    scoreMultiplier = 1;
+		// Remove all collectible objects from the game
+		collectibleGroup.removeAll();
+
+		// Enable losing lives
+		setTimeout(() => {
+			bonusPeriod = false;
+		}, 3000);
+
+		spawnRateHasIncreased = false;
+		
+		comboFreeze = false; 
+		
+		gamestate = 'normal';
+	}
 }
 
 /*******************************************************/
@@ -414,6 +441,11 @@ function game_failObjectCollection() {
             collectibleGroup[i].remove();
             console.log('Dropped ' + collectibleGroup[i]);
 
+			// Reset combo when player drops an object
+			if (comboFreeze == false) {
+				combo = 0; 
+			}
+
             // Game feedback for dropping collectible
             document.body.style.background = '#c21206';
             setTimeout(() => {
@@ -425,10 +457,6 @@ function game_failObjectCollection() {
             setTimeout(() => {
                 shakeIntensity = 0;
             }, 300);
-
-            setTimeout(() => {
-
-            });
 
             return true;
         } else {
@@ -512,7 +540,8 @@ function game_gameOver() {
 function game_collectedObject(_player, _object) {
     console.log("Object collected");
     // Increase player's score
-    score += SCOREGAINED * scoreMultiplier;
+    score += Math.floor(SCOREGAINED * scoreMultiplier * (1 + combo/10));
+	game_increaseCombo(); 
 
     // Create some particles that kinda make the game look better (feedback)
     for (let i = 0; i < random(8, 20); i++) {
@@ -539,6 +568,11 @@ function game_hitVoidShard(_player, _object) {
 
     // Decrease lives by 1
     lives--;
+
+	// Reset combo when player collides with voidShard
+	if (comboFreeze == false) {
+		combo = 0; 
+	}
 
     // Display danger feedback
     // Create some particles that kinda make the game look better
@@ -615,6 +649,7 @@ function game_collectedBonus(_player, _object) {
 
     // Increase player's score
     score += 5;
+	game_increaseCombo();
 
     // Create some particles (feedback)
     for (let i = 0; i < random(8, 20); i++) {
@@ -713,6 +748,67 @@ function game_displayLives() {
     drawingContext.shadowColor = "yellow";
     text("Lives: " + lives, 20, 80);
     drawingContext.shadowBlur = 0;
+}
+
+/*******************************************************/
+// game_displayCombo()
+// Called in draw loop
+// Displays current player combo
+// Combo is the number of collectibles collected in a row
+// Most of the code below is from ChatGPT, though edited by me
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_displayCombo() { 
+    if (combo === 0) return; // Don't display if combo is zero
+
+    let timeSinceLastCombo = millis() - lastComboTime;
+
+    // If no new combo in 5 seconds, fade out
+    if (timeSinceLastCombo > 5000) {
+        comboAlpha -= 4; // Faster fade
+        if (comboAlpha <= 0) {
+            combo = 0; // Reset combo when fully faded
+            comboAlpha = 255;
+        }
+    } else {
+        comboAlpha = 255; // Keep it fully visible if active
+    }
+
+    // Dynamic color shifting
+    let hueValue = (combo * 15 + frameCount) % 360;
+    let comboColor = color(`hsl(${hueValue}, 100%, 60%)`);
+    fill(comboColor.levels[0], comboColor.levels[1], comboColor.levels[2], comboAlpha);
+
+    // Glow pulse effect
+    let glowSize = 10 + sin(frameCount * 0.2) * 7; // Smooth pulsing glow
+    drawingContext.shadowBlur = glowSize;
+    drawingContext.shadowColor = comboColor.toString();
+
+    // Slight text bounce when increasing combo
+    let textSizeBoost = glowPulse;
+    glowPulse = max(0, glowPulse - 1); // Reduce pulse gradually
+
+    textSize(baseFontSize + textSizeBoost);
+    text(`Combo x${combo}`, width/2 - 100, 100);
+
+    drawingContext.shadowBlur = 0; // Reset glow
+}
+
+
+/*******************************************************/
+// game_increaseCombo()
+// Called when player collects an object	
+// Increases combo count and updates last combo time
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function game_increaseCombo() {
+	// Increase combo count and update last combo time
+	combo++;
+	lastComboTime = millis();
+	glowPulse = 20;
+	comboAlpha = 255;
 }
 
 /*******************************************************/
