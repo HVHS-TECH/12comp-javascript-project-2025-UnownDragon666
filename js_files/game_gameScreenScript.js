@@ -416,7 +416,11 @@ function game_returnToNormal() {
         // Enable losing lives
         setTimeout(() => {
             bonusPeriod = false;
+<<<<<<< HEAD
         }, 3000);
+=======
+        }, 1500);
+>>>>>>> eabdadf (Auto format)
 
         spawnRateHasIncreased = false;
 
