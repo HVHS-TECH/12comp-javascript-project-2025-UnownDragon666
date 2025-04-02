@@ -54,16 +54,21 @@ let baseFontSize = 30; // Base font size
 /*******************************************************/
 // Constants
 /*******************************************************/
+// Player constants
 const MOVEMENTSPEED = 15;
-const SPAWNMARGIN = 20;
 const PLAYERWIDTH = 140;
 const PLAYERHEIGHT = 20;
-const COLLECTIBLERADIUS = 20;
-const VOIDSHARDRADIUS = 30;
 const SPEEDBOOST = 2.5;
 const ORIGINALLIVES = sessionStorage.getItem('lives');
-const SCOREGAINED = 1;
+
+// Falling object constants
+const COLLECTIBLERADIUS = 20;
+const VOIDSHARDRADIUS = 30;
+const SPAWNMARGIN = 20;
 const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
+
+// Game constants
+const SCOREGAINED = 1;
 
 /*********************************************************************************************************************************************************/
 // P5 Play Functions
@@ -80,7 +85,7 @@ const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
 // Returns: N/A
 /*******************************************************/
 function preload() {
-    console.log("preload() run");
+    console.log("%cpreload() run", "color: red; backgroundcolor: blue;");
 
     // Load images
     // playerImage made by me with Piskel
