@@ -130,3 +130,7 @@ function set_startGame() {
     // Go to game page
     window.location.assign('../html_files/game_gameplayScreen.html');
 }
+
+/*******************************************************/
+//  END OF APP
+/*******************************************************/

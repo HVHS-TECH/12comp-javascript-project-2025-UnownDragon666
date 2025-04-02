@@ -73,3 +73,7 @@ function ins_changeButtons() {
     // Append the element to the DOM (So it becomes visible on the page)
     document.getElementById('d_buttonContainer').appendChild(ins_nextPageButton);
 }
+
+/*******************************************************/
+//  END OF APP
+/*******************************************************/

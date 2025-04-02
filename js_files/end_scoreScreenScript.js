@@ -120,3 +120,7 @@ function end_restartGame() {
 function end_toSettingsPage() {
     window.location.href = '../html_files/set_gameSettingsScreen.html';
 }
+
+/*******************************************************/
+//  END OF APP
+/*******************************************************/
