@@ -14,9 +14,7 @@ let player;
 let gamestate = 'normal';
 let score = 0;
 let lives = sessionStorage.getItem('lives');
-let difficulty = sessionStorage.getItem('difficulty');
-
-
+let difficulty = sessionStorage.getItem('difficulty'); // This is for future leaderboard functionality through databases
 
 // Collectibles
 let collectibleGroup;
@@ -180,7 +178,7 @@ function draw() {
     // Show player score, combo and lives
     game_displayScore();
     game_displayLives();
-	game_displayCombo();
+    game_displayCombo();
 
     // Check for failure to collect object and removes life
     game_loseLife(game_failObjectCollection());
@@ -228,7 +226,7 @@ function game_createPlayerSprite() {
 // Returns: N/A
 /*******************************************************/
 function game_spawnCollectibleObjects() {
-	console.log('Spawn rate: ' + collectibleSpawnRate);
+    console.log('Spawn rate: ' + collectibleSpawnRate);
     // Creates collectible sprites
     if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
         console.log('collectible spawned')
@@ -376,18 +374,18 @@ function game_bonusPeriod() {
     // Disable losing lives
     bonusPeriod = true;
 
-	comboFreeze = true; // Prevents combo from decreasing when true
-	
+    comboFreeze = true; // Prevents combo from decreasing when true
+
     // Increase spawn rate of collectibles
-	if (spawnRateHasIncreased == false) {
-		collectibleSpawnRate *= 16;
-		spawnRateHasIncreased = true;
-	}
+    if (spawnRateHasIncreased == false) {
+        collectibleSpawnRate *= 16;
+        spawnRateHasIncreased = true;
+    }
 
     // Increase scoreMultiplier to increase score gained
     scoreMultiplier = 5;
 
-	gamestate = 'bonus';
+    gamestate = 'bonus';
 }
 
 /*******************************************************/
@@ -399,33 +397,33 @@ function game_bonusPeriod() {
 // Returns: N/A
 /*******************************************************/
 function game_returnToNormal() {
-	if (gamestate == 'bonus') {
-		// Reset background to normal
-		document.body.style.background = '';
+    if (gamestate == 'bonus') {
+        // Reset background to normal
+        document.body.style.background = '';
 
-		// Enable spawning of voidShards
-		dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
+        // Enable spawning of voidShards
+        dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
 
-		// Reset spawn rate of collectibles
-		collectibleSpawnRate /= 16;
+        // Reset spawn rate of collectibles
+        collectibleSpawnRate /= 16;
 
-		// Reset scoreMultiplier to normal state
-		scoreMultiplier = 1;
+        // Reset scoreMultiplier to normal state
+        scoreMultiplier = 1;
 
-		// Remove all collectible objects from the game
-		collectibleGroup.removeAll();
+        // Remove all collectible objects from the game
+        collectibleGroup.removeAll();
 
-		// Enable losing lives
-		setTimeout(() => {
-			bonusPeriod = false;
-		}, 3000);
+        // Enable losing lives
+        setTimeout(() => {
+            bonusPeriod = false;
+        }, 3000);
 
-		spawnRateHasIncreased = false;
-		
-		comboFreeze = false; 
-		
-		gamestate = 'normal';
-	}
+        spawnRateHasIncreased = false;
+
+        comboFreeze = false;
+
+        gamestate = 'normal';
+    }
 }
 
 /*******************************************************/
@@ -441,10 +439,10 @@ function game_failObjectCollection() {
             collectibleGroup[i].remove();
             console.log('Dropped ' + collectibleGroup[i]);
 
-			// Reset combo when player drops an object
-			if (comboFreeze == false) {
-				combo = 0; 
-			}
+            // Reset combo when player drops an object
+            if (comboFreeze == false) {
+                combo = 0;
+            }
 
             // Game feedback for dropping collectible
             document.body.style.background = '#c21206';
@@ -540,8 +538,8 @@ function game_gameOver() {
 function game_collectedObject(_player, _object) {
     console.log("Object collected");
     // Increase player's score
-    score += Math.floor(SCOREGAINED * scoreMultiplier * (1 + combo/10));
-	game_increaseCombo(); 
+    score += Math.floor(SCOREGAINED * scoreMultiplier * (1 + combo / 10));
+    game_increaseCombo();
 
     // Create some particles that kinda make the game look better (feedback)
     for (let i = 0; i < random(8, 20); i++) {
@@ -569,10 +567,10 @@ function game_hitVoidShard(_player, _object) {
     // Decrease lives by 1
     lives--;
 
-	// Reset combo when player collides with voidShard
-	if (comboFreeze == false) {
-		combo = 0; 
-	}
+    // Reset combo when player collides with voidShard
+    if (comboFreeze == false) {
+        combo = 0;
+    }
 
     // Display danger feedback
     // Create some particles that kinda make the game look better
@@ -649,7 +647,7 @@ function game_collectedBonus(_player, _object) {
 
     // Increase player's score
     score += 5;
-	game_increaseCombo();
+    game_increaseCombo();
 
     // Create some particles (feedback)
     for (let i = 0; i < random(8, 20); i++) {
@@ -759,7 +757,7 @@ function game_displayLives() {
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-function game_displayCombo() { 
+function game_displayCombo() {
     if (combo === 0) return; // Don't display if combo is zero
 
     let timeSinceLastCombo = millis() - lastComboTime;
@@ -790,7 +788,7 @@ function game_displayCombo() {
     glowPulse = max(0, glowPulse - 1); // Reduce pulse gradually
 
     textSize(baseFontSize + textSizeBoost);
-    text(`Combo x${combo}`, width/2 - 100, 100);
+    text(`Combo x${combo}`, width / 2 - 100, 100);
 
     drawingContext.shadowBlur = 0; // Reset glow
 }
@@ -804,11 +802,11 @@ function game_displayCombo() {
 // Returns: N/A
 /*******************************************************/
 function game_increaseCombo() {
-	// Increase combo count and update last combo time
-	combo++;
-	lastComboTime = millis();
-	glowPulse = 20;
-	comboAlpha = 255;
+    // Increase combo count and update last combo time
+    combo++;
+    lastComboTime = millis();
+    glowPulse = 20;
+    comboAlpha = 255;
 }
 
 /*******************************************************/
