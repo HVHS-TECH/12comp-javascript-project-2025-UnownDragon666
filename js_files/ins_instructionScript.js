@@ -6,16 +6,6 @@
 console.log('%cins_instructionScript running', 'color: blue; background-color: white;');
 
 /*******************************************************/
-// Variables
-/*******************************************************/
-
-
-/*******************************************************/
-// Constants
-/*******************************************************/
-
-
-/*******************************************************/
 // ins_denyHelp()
 // Called by button in ins_gameInstructions.html
 // returns player to start screen
@@ -38,7 +28,7 @@ function ins_denyHelp() {
 /*******************************************************/
 function ins_displayInstructions() {
     console.log('Instructions displayed');
-    
+
     // Empty p_loreContent
     document.getElementById('p_loreText').innerHTML = '';
 
@@ -47,7 +37,7 @@ function ins_displayInstructions() {
 
     // Call function to change buttons to the button that goes to the game settings page
     ins_changeButtons();
-}   
+}
 
 /*******************************************************/
 // ins_displayInstructions()

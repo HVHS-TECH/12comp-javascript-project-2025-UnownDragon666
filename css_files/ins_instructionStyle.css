@@ -1,7 +1,8 @@
 /* Import Caudex from google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-h1, p {
+h1,
+p {
     font-family: "Caudex", serif;
     text-shadow: 2px 2px 16px rgba(115, 45, 1, 0.775);
 }
@@ -56,4 +57,3 @@ button:hover {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
     transform: translateY(-3px);
 }
-
