@@ -17,32 +17,32 @@ let diffSelectValue;
 /*******************************************************/
 const LIVES = [10, 5, 3, 2, 1];
 const FALLSPEED = [
-    {speedNum: 4, speed: 'Slow'},
-    {speedNum: 7, speed: 'Medium'}, 
-    {speedNum: 9.8, speed: 'Fast'}, 
-    {speedNum: 12, speed: 'Insane'}, 
-    {speedNum: 15, speed: "DIVINE"}
+    { speedNum: 4, speed: 'Slow' },
+    { speedNum: 7, speed: 'Medium' },
+    { speedNum: 9.8, speed: 'Fast' },
+    { speedNum: 12, speed: 'Insane' },
+    { speedNum: 15, speed: "DIVINE" }
 ];
 const SPAWNDENSITY = [
-    {spawnNum: 50, density: 'Low'}, 
-    {spawnNum: 60, density: 'Medium'}, 
-    {spawnNum: 80, density: 'High'}, 
-    {spawnNum: 100, density: 'Crazy'}, 
-    {spawnNum: 120, density: 'RAIN OF GOD'}
+    { spawnNum: 50, density: 'Low' },
+    { spawnNum: 60, density: 'Medium' },
+    { spawnNum: 80, density: 'High' },
+    { spawnNum: 100, density: 'Crazy' },
+    { spawnNum: 120, density: 'RAIN OF GOD' }
 ];
 const DANGERSPAWNRATE = [
-    {spawnNum: 0, canSpawn: 'Safe'},
-    {spawnNum: 0, canSpawn: 'Safe'},
-    {spawnNum: 70, canSpawn: 'Careful'},
-    {spawnNum: 100, canSpawn: 'Danger'},
-    {spawnNum: 150, canSpawn: "GOD'S WRATH"}
+    { spawnNum: 0, canSpawn: 'Safe' },
+    { spawnNum: 0, canSpawn: 'Safe' },
+    { spawnNum: 70, canSpawn: 'Careful' },
+    { spawnNum: 100, canSpawn: 'Danger' },
+    { spawnNum: 150, canSpawn: "GOD'S WRATH" }
 ];
 const HEARTSPAWNRATE = [
-    {spawnNum: 25, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 15, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 10, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 5, canSpawn: 'Collect hearts to replenish lives'},
-    {spawnNum: 0,  canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
+    { spawnNum: 25, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 15, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 10, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 5, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 0, canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
 ];
 
 /*******************************************************/
@@ -80,20 +80,17 @@ function set_displayDifficultyInfo(event) {
     // Prevent page reload
     event.preventDefault();
 
-    // Get the selected difficulty
-    diffSelectValue = document.getElementById('s_diffSelect').value;
-
     // Get index of the selected difficulty
-    diffIndex = set_identifyDiffIndex(diffSelectValue);
+    diffIndex = set_identifyDiffIndex(document.getElementById('s_diffSelect').value);
 
     // Update the info text to show the relevant information
-    set_diffInfoText.innerHTML = 
-        'Lives: ' + LIVES[diffIndex] + '<br>' + 
-        'Star Speed: ' + FALLSPEED[diffIndex].speed + '<br>' + 
+    set_diffInfoText.innerHTML =
+        'Lives: ' + LIVES[diffIndex] + '<br>' +
+        'Star Speed: ' + FALLSPEED[diffIndex].speed + '<br>' +
         'Star Density: ' + SPAWNDENSITY[diffIndex].density + '<br>' +
         'Are you in danger: ' + DANGERSPAWNRATE[diffIndex].canSpawn + '<br>' +
         HEARTSPAWNRATE[diffIndex].canSpawn;
-    
+
     // Check if button exists, if not, create it
     if (!document.getElementById('startButton')) {
         // Create button to start game
@@ -104,7 +101,7 @@ function set_displayDifficultyInfo(event) {
         // Add button functionality
         set_gameStartButton.onclick = () => {
             set_startGame();
-        } 
+        }
 
         // Append the button to the DOM
         document.getElementById('s_startGame').appendChild(set_gameStartButton);
