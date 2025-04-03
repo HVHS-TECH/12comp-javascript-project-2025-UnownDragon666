@@ -18,5 +18,13 @@ function index_toInstructionsPage() {
 }
 
 /*******************************************************/
+// Add an event listener to check for key presses
+// Performs same task as index_toInstructionsPage()
+/*******************************************************/
+document.addEventListener('keyup', () => {
+    document.location.href = 'html_files/ins_gameInstructions.html';
+})
+
+/*******************************************************/
 //  END OF APP
 /*******************************************************/

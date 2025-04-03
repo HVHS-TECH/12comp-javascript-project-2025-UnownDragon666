@@ -8,10 +8,10 @@
     padding: 0;
     box-sizing: border-box;
     color: whitesmoke;
-    text-shadow:  
-    0px 0px 10px rgba(255, 255, 255, 0.8),  
-    0px 0px 20px rgba(255, 255, 255, 0.6),  
-    0px 0px 30px rgba(255, 255, 255, 0.4);
+    text-shadow:
+        0px 0px 10px rgba(255, 255, 255, 0.8),
+        0px 0px 20px rgba(255, 255, 255, 0.6),
+        0px 0px 30px rgba(255, 255, 255, 0.4);
 }
 
 h1 {
@@ -22,12 +22,10 @@ h1 {
 
 p {
     font-size: 1.5rem;
-    text-shadow:  
-    1px 1px 4px rgba(255, 255, 255, 0.8),  
-    0px 0px 6px rgba(0, 208, 255, 0.5); 
+    text-shadow:
+        1px 1px 4px rgba(255, 255, 255, 0.8),
+        0px 0px 6px rgba(0, 208, 255, 0.5);
 }
-
-/* Parts of following code written by ChatGPT to properly stack the elements on the page */
 
 body {
     /* Creative Commons Attribution-NonCommercial-No Derivatives Works 3.0 License */
@@ -41,11 +39,13 @@ body {
     align-items: center;
 }
 
+/* Parts of following code written by ChatGPT to properly stack the elements on the page */
+
 #d_contentContainer {
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     width: 100%;
 }
