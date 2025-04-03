@@ -11,8 +11,10 @@
 /* The following code was written by ChatGPT and edited by me */
 
 body {
-    background-color: #2a2b3c; /* Midnight blue for background */
-    color: #f0e6d2; /* Off-white for text */
+    background-color: #2a2b3c;
+    /* Midnight blue for background */
+    color: #f0e6d2;
+    /* Off-white for text */
     text-align: center;
     padding: 20px;
 }
@@ -20,8 +22,10 @@ body {
 /* Heading Styling */
 h1 {
     font-size: 3rem;
-    color: #d8af6f; /* Golden color */
-    text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7); /* Glowing effect */
+    color: #d8af6f;
+    /* Golden color */
+    text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7);
+    /* Glowing effect */
     letter-spacing: 2px;
     margin-bottom: 2rem;
 }
@@ -100,11 +104,36 @@ button:hover {
 
 /* Color Cycling Animation */
 @keyframes colorCycle {
-    0% { color: #d8af6f; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); } /* Gold */
-    25% { color: #ff4500; text-shadow: 0 0 12px rgba(255, 69, 0, 0.8); } /* Orange-Red */
-    50% { color: #8a2be2; text-shadow: 0 0 15px rgba(138, 43, 226, 0.8); } /* Purple */
-    75% { color: #00ced1; text-shadow: 0 0 15px rgba(0, 206, 209, 0.8); } /* Cyan */
-    100% { color: #d8af6f; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); } /* Back to Gold */
+    0% {
+        color: #d8af6f;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    /* Gold */
+    25% {
+        color: #ff4500;
+        text-shadow: 0 0 12px rgba(255, 69, 0, 0.8);
+    }
+
+    /* Orange-Red */
+    50% {
+        color: #8a2be2;
+        text-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+    }
+
+    /* Purple */
+    75% {
+        color: #00ced1;
+        text-shadow: 0 0 15px rgba(0, 206, 209, 0.8);
+    }
+
+    /* Cyan */
+    100% {
+        color: #d8af6f;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    /* Back to Gold */
 }
 
 /* Updated Floating Rune Animation */
@@ -112,27 +141,62 @@ button:hover {
     position: absolute;
     font-size: 3rem;
     opacity: 0.8;
-    animation: floatAnimation 6s infinite ease-in-out, 
-               flicker 2s infinite alternate, 
-               colorCycle 8s infinite linear; /* New color animation */
+    animation: floatAnimation 6s infinite ease-in-out,
+        flicker 2s infinite alternate,
+        colorCycle 8s infinite linear;
+    /* New color animation */
     font-family: "Caudex", serif;
 }
 
 /* Unique positioning */
-.rune1 { top: 20%; left: 15%; animation-delay: 0s; }
-.rune2 { top: 40%; right: 20%; animation-delay: 1s; }
-.rune3 { bottom: 30%; left: 30%; animation-delay: 2s; }
-.rune4 { bottom: 10%; right: 30%; animation-delay: 3s; }
+.rune1 {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.rune2 {
+    top: 40%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.rune3 {
+    bottom: 30%;
+    left: 30%;
+    animation-delay: 2s;
+}
+
+.rune4 {
+    bottom: 10%;
+    right: 30%;
+    animation-delay: 3s;
+}
 
 /* Floating Animation */
 @keyframes floatAnimation {
-    0% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(10deg); }
-    100% { transform: translateY(0px) rotate(0deg); }
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
 }
 
 /* Flickering Effect */
 @keyframes flicker {
-    0% { opacity: 0.7; text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 15px rgba(255, 180, 0, 0.6); }
-    100% { opacity: 1; text-shadow: 0 0 12px rgba(255, 215, 0, 1), 0 0 20px rgba(255, 180, 0, 0.9); }
+    0% {
+        opacity: 0.7;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 15px rgba(255, 180, 0, 0.6);
+    }
+
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 12px rgba(255, 215, 0, 1), 0 0 20px rgba(255, 180, 0, 0.9);
+    }
 }
