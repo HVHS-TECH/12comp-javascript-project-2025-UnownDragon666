@@ -69,10 +69,13 @@ const VOIDSHARDRADIUS = 30;
 const SPAWNMARGIN = 20;
 const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
 const COLLECTIBLESPAWNY = -50; 
+const SPAWNRATEBONUS = 32;
 
 // Game constants
 const SCOREGAINED = 1;
 const GLITCHDURATION = 100;
+const PARTICLESIZE = 3;
+const COMBOTIMER = 5000; 
 
 /*********************************************************************************************************************************************************/
 // P5 Play Functions
@@ -333,10 +336,6 @@ function game_movePlayer() {
         player.vel.x *= SPEEDBOOST;
     }
 
-    if (kb.released('space')) {
-        player.vel.x = 0;
-    }
-
     // Check player position to ensure they don't go off screen
     // Loop around board when player goes off screen. ^^
     // Right of screen
@@ -375,7 +374,7 @@ function game_bonusPeriod() {
 
     // Increase spawn rate of collectibles
     if (spawnRateHasIncreased == false) {
-        collectibleSpawnRate *= 16;
+        collectibleSpawnRate *= SPAWNRATEBONUS;
         spawnRateHasIncreased = true;
     }
 
@@ -402,7 +401,7 @@ function game_returnToNormal() {
         dangerSpawnRate = ORIGINALDANGERSPAWNRATE;
 
         // Reset spawn rate of collectibles
-        collectibleSpawnRate /= 16;
+        collectibleSpawnRate /= SPAWNRATEBONUS;
 
         // Reset scoreMultiplier to normal state
         scoreMultiplier = 1;
@@ -550,7 +549,7 @@ function game_collectedObject(_player, _object) {
 
     // Create some particles that kinda make the game look better (feedback)
     for (let i = 0; i < random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
         particle.color = 'yellow';
@@ -582,7 +581,7 @@ function game_hitVoidShard(_player, _object) {
     // Display danger feedback
     // Create some particles that kinda make the game look better
     for (let i = 0; i < random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
         random(0, 1) < 0.5 ? particle.color = 'red' : particle.color = 'black';
@@ -630,7 +629,7 @@ function game_collectedHeart(_player, _object) {
 
     // Display heart feedback
     for (let i = 0; i < random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
         particle.color = 'lime';
@@ -658,7 +657,7 @@ function game_collectedBonus(_player, _object) {
 
     // Create some particles (feedback)
     for (let i = 0; i < random(8, 20); i++) {
-        let particle = createSprite(_object.x, _object.y, 3, 3, 'n');
+        let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
         particle.vel.x = random(-3, 3);
         particle.vel.y = random(-3, 3);
         let randColor = Math.floor(random(0, 7));
@@ -775,8 +774,8 @@ function game_displayCombo() {
 
     let timeSinceLastCombo = millis() - lastComboTime;
 
-    // If no new combo in 5 seconds, fade out
-    if (timeSinceLastCombo > 5000) {
+    // If no new combo in COMBOTIMER seconds, fade out
+    if (timeSinceLastCombo > COMBOTIMER) {
         comboAlpha -= 4; // Faster fade
         if (comboAlpha <= 0) {
             combo = 0; // Reset combo when fully faded
