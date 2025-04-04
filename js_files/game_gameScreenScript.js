@@ -15,6 +15,8 @@ let gamestate = 'normal';
 let score = 0;
 let lives = sessionStorage.getItem('lives');
 let difficulty = sessionStorage.getItem('difficulty'); // This is for future leaderboard functionality through databases
+let canvasWidth, canvasHeight;
+let glitchStartTime = -1;
 
 // Collectibles
 let collectibleGroup;
@@ -39,7 +41,7 @@ let bonusGroup;
 let bonusSpawnRate = 10;
 let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
-let bonusDuration = 210; // 7 seconds in frames (30 FPS)
+let bonusDuration = 300;
 let bonusPeriod = false;
 let spawnRateHasIncreased = false;
 
@@ -69,6 +71,7 @@ const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
 
 // Game constants
 const SCOREGAINED = 1;
+const GLITCHDURATION = 100;
 
 /*********************************************************************************************************************************************************/
 // P5 Play Functions
@@ -110,16 +113,19 @@ function preload() {
 /*******************************************************/
 function setup() {
     console.log("setup() run");
-    cnv = new Canvas(windowWidth / 2, windowHeight);
+
+    // Set canvas size
+    canvasWidth = windowWidth / 2;
+    canvasHeight = windowHeight;
+
+    // Create canvas
+    cnv = new Canvas(canvasWidth, canvasHeight);
 
     // Create groups for falling objects
     collectibleGroup = new Group();
     voidShardGroup = new Group();
     heartGroup = new Group();
     bonusGroup = new Group();
-
-    // Walls of play area sprite creation
-    game_generateWalls();
 
     // Player sprite creation
     game_createPlayerSprite();
@@ -231,11 +237,10 @@ function game_createPlayerSprite() {
 // Returns: N/A
 /*******************************************************/
 function game_spawnCollectibleObjects() {
-    console.log('Spawn rate: ' + collectibleSpawnRate);
     // Creates collectible sprites
     if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
         console.log('collectible spawned')
-        let starCollectible = new Sprite(random(SPAWNMARGIN, windowWidth / 2 - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let starCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
         starCollectible.image = starImage;
         collectibleGroup.add(starCollectible);
     }
@@ -253,7 +258,7 @@ function game_spawnMercyCollectibleObjects() {
     // Creates hearts for player to collect
     if (random(0, heartSpawnRateMax) < heartSpawnRate) {
         console.log('heart spawned')
-        let heartCollectible = new Sprite(random(SPAWNMARGIN, windowWidth / 2 - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let heartCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
         heartCollectible.image = heartImage;
         heartCollectible.scale = 0.5;
         heartGroup.add(heartCollectible);
@@ -271,7 +276,7 @@ function game_spawnDangerousObjects() {
     // Creates voidShards for player to avoid
     if (dangerSpawnRate >= 50) {
         if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
-            let voidShard = new Sprite(random(SPAWNMARGIN, windowWidth / 2 - SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
+            let voidShard = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
             voidShard.image = shardImage;
             voidShard.scale = 0.5;
             voidShardGroup.add(voidShard);
@@ -289,25 +294,11 @@ function game_spawnDangerousObjects() {
 /*******************************************************/
 function game_createBonusObjects() {
     if (random(0, bonusSpawnRateMax) < bonusSpawnRate) {
-        let bonusCollectible = new Sprite(random(SPAWNMARGIN, windowWidth / 2 - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let bonusCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
         bonusCollectible.image = bonusImage;
         bonusCollectible.scale = 0.5;
         bonusGroup.add(bonusCollectible);
     }
-}
-
-/*******************************************************/
-// game_generateWalls()
-// Called in draw loop
-// Creates the falling collectibles for player to collect
-// Input: N/A
-// Returns: N/A
-/*******************************************************/
-function game_generateWalls() {
-    let leftWall = new Sprite(0, windowHeight / 2, 2, windowHeight, 's');
-    leftWall.color = 'black';
-    let rightWall = new Sprite(windowWidth / 2, windowHeight / 2, 2, windowHeight, 's')
-    rightWall.color = 'black';
 }
 
 /*********************************************************************************************************************************************************/
@@ -449,14 +440,18 @@ function game_failObjectCollection() {
                 combo = 0;
             }
 
-            // Game feedback for dropping collectible
-            document.body.style.background = '#c21206';
+            // Game feedback for dropping collectible if not in bonus period
+            if (gamestate == 'normal') {
+                document.body.style.background = '#c21206';
+            }
             setTimeout(() => {
                 document.body.style.background = '';
             }, 100);
 
-            // Start screen shake 
-            shakeIntensity = 10;
+            // Start screen shake if not bonus period
+            if (gamestate == 'normal') {
+                shakeIntensity = 10;
+            }
             setTimeout(() => {
                 shakeIntensity = 0;
             }, 300);
@@ -518,13 +513,17 @@ function game_loseLife(_dropped) {
 // game_gameOver()
 // Called in draw loop when player's lives hit 0
 // Goes to end page, sends the score to sessionStorage
-// Input: N/A
+// Input: boolean _resize (if true, the canvas was resized)
 // Returns: N/A
 /*******************************************************/
-function game_gameOver() {
+function game_gameOver(_resize) {
     sessionStorage.setItem('game_playerScore', score);
     noLoop();
     window.location.href = '../html_files/end_gameScoreScreen.html';
+
+    if (_resize == true) {
+        sessionStorage.setItem('game_windowResized', true);
+    }
 }
 
 /*********************************************************************************************************************************************************/
@@ -699,13 +698,17 @@ function game_collectedBonus(_player, _object) {
 // Returns: N/A
 /*******************************************************/
 function game_glitch() {
-    let gltichDuration = 100;
-    let gltichStartTime = millis();
-    if (millis() - gltichStartTime < gltichDuration) {
+    if (glitchStartTime == -1) {
+        glitchStartTime = millis();
+    }
+
+    if (millis() - glitchStartTime < GLITCHDURATION) {
         player.x += random(-10, 10);
         player.y += random(-10, 10);
         player.scale = random(0.8, 1.2);
         random(0, 1) < 0.5 ? player.visible = false : player.visible = true;
+    } else {
+        glitchStartTime = -1; // Reset the glitch start time
     }
 }
 
@@ -730,6 +733,7 @@ function game_displayScore() {
     textStyle(BOLD);
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = "yellow";
+    textAlign(LEFT);
     text("Score: " + score, 20, 40);
     drawingContext.shadowBlur = 0;
 }
@@ -749,6 +753,7 @@ function game_displayLives() {
     textStyle(BOLD);
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = "yellow";
+    textAlign(LEFT);
     text("Lives: " + lives, 20, 80);
     drawingContext.shadowBlur = 0;
 }
@@ -793,7 +798,8 @@ function game_displayCombo() {
     glowPulse = max(0, glowPulse - 1); // Reduce pulse gradually
 
     textSize(baseFontSize + textSizeBoost);
-    text(`Combo x${combo}`, width / 2 - 100, 100);
+    textAlign(CENTER);
+    text(`Combo x${combo}`, width / 2, 100);
 
     drawingContext.shadowBlur = 0; // Reset glow
 }
@@ -840,6 +846,26 @@ function game_createStars(_numStars) {
         document.body.appendChild(star);
     }
 }
+
+/*********************************************************************************************************************************************************/
+// Handle window resize function
+//
+//
+/*********************************************************************************************************************************************************/
+window.addEventListener('resize', () => {
+    // Set canvas size
+    canvasWidth = windowWidth / 2;
+    canvasHeight = windowHeight;
+
+    // Resize canvas
+    cnv.resize(canvasWidth, canvasHeight);
+
+    // Update player position
+    player.position.x = windowWidth / 4;
+    player.position.y = windowHeight - 100;
+
+    game_gameOver(true);
+});
 
 /*********************************************************************************************************************************************************/
 // Miscellaneous Functions

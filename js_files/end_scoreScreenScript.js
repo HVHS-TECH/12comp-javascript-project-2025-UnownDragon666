@@ -11,6 +11,7 @@ console.log('%cend_scoreScreenScript.js running', 'color:blue; background-color:
 /*******************************************************/
 // Get score from sessionStorage
 let end_playerScore = sessionStorage.getItem("game_playerScore");
+let wasWindowResized = sessionStorage.getItem("game_windowResized");
 
 /*******************************************************/
 // Constants
@@ -53,7 +54,7 @@ function end_pageLoadSetup() {
     } else {
         document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?"
     }
-    
+
     // Displays players score from last play
     end_displayScore();
 }
@@ -67,9 +68,15 @@ function end_pageLoadSetup() {
 // Returns: N/A
 /*******************************************************/
 function end_chooseMessage() {
-    // Used help from ChatGPT to write below math statement
-    let randomMessage = Math.floor(Math.random() * MESSAGEARRAY.length);
-    return MESSAGEARRAY[randomMessage];
+    if (wasWindowResized == 'true') {
+        // If the window was resized, display a different message
+        return "Looks like you resized the window! Try to keep it the same size next time!";
+    } else {
+        // Used help from ChatGPT to write below math statement
+        let randomMessage = Math.floor(Math.random() * MESSAGEARRAY.length);
+        return MESSAGEARRAY[randomMessage];
+    }
+
 }
 
 /*******************************************************/
