@@ -12,7 +12,13 @@
 
 body {
     background-color: #2a2b3c;
+<<<<<<< HEAD
     color: #f0e6d2;
+=======
+    /* Midnight blue for background */
+    color: #f0e6d2;
+    /* Off-white for text */
+>>>>>>> 51c59f1f236d449d28b82945796e4b1c5c8ce258
     text-align: center;
     padding: 20px;
 }
@@ -20,7 +26,13 @@ body {
 h1 {
     font-size: 3rem;
     color: #d8af6f;
+<<<<<<< HEAD
     text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7);
+=======
+    /* Golden color */
+    text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7);
+    /* Glowing effect */
+>>>>>>> 51c59f1f236d449d28b82945796e4b1c5c8ce258
     letter-spacing: 2px;
     margin-bottom: 2rem;
 }
@@ -161,6 +173,10 @@ button:hover {
     animation-delay: 3s;
 }
 
+<<<<<<< HEAD
+=======
+/* Floating Animation */
+>>>>>>> 51c59f1f236d449d28b82945796e4b1c5c8ce258
 @keyframes floatAnimation {
     0% {
         transform: translateY(0px) rotate(0deg);
