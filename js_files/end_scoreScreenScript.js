@@ -48,11 +48,17 @@ const MESSAGEARRAY = [
 // Returns: N/A
 /*******************************************************/
 function end_pageLoadSetup() {
+
+    if (end_playerScore == null) {
+        // If the player score is null, set it to 0
+        end_playerScore = 0;
+    }
+
     // Displays an encouraging message if player's score > 0
-    if (end_playerScore > 0) {
-        end_displayMessage(end_chooseMessage());
+    if (end_playerScore == 0) {
+        document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?";
     } else {
-        document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?"
+        end_displayMessage(end_chooseMessage());
     }
 
     // Displays players score from last play

@@ -68,6 +68,7 @@ const COLLECTIBLERADIUS = 20;
 const VOIDSHARDRADIUS = 30;
 const SPAWNMARGIN = 20;
 const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
+const COLLECTIBLESPAWNY = -50; 
 
 // Game constants
 const SCOREGAINED = 1;
@@ -240,7 +241,7 @@ function game_spawnCollectibleObjects() {
     // Creates collectible sprites
     if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
         console.log('collectible spawned')
-        let starCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let starCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
         starCollectible.image = starImage;
         collectibleGroup.add(starCollectible);
     }
@@ -258,7 +259,7 @@ function game_spawnMercyCollectibleObjects() {
     // Creates hearts for player to collect
     if (random(0, heartSpawnRateMax) < heartSpawnRate) {
         console.log('heart spawned')
-        let heartCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let heartCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
         heartCollectible.image = heartImage;
         heartCollectible.scale = 0.5;
         heartGroup.add(heartCollectible);
@@ -276,7 +277,7 @@ function game_spawnDangerousObjects() {
     // Creates voidShards for player to avoid
     if (dangerSpawnRate >= 50) {
         if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
-            let voidShard = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, VOIDSHARDRADIUS, 'd');
+            let voidShard = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, VOIDSHARDRADIUS, 'd');
             voidShard.image = shardImage;
             voidShard.scale = 0.5;
             voidShardGroup.add(voidShard);
@@ -294,7 +295,7 @@ function game_spawnDangerousObjects() {
 /*******************************************************/
 function game_createBonusObjects() {
     if (random(0, bonusSpawnRateMax) < bonusSpawnRate) {
-        let bonusCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), -10, COLLECTIBLERADIUS, 'd');
+        let bonusCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
         bonusCollectible.image = bonusImage;
         bonusCollectible.scale = 0.5;
         bonusGroup.add(bonusCollectible);
@@ -523,6 +524,8 @@ function game_gameOver(_resize) {
 
     if (_resize == true) {
         sessionStorage.setItem('game_windowResized', true);
+    } else {
+        sessionStorage.setItem('game_windowResized', false);
     }
 }
 
@@ -853,17 +856,6 @@ function game_createStars(_numStars) {
 //
 /*********************************************************************************************************************************************************/
 window.addEventListener('resize', () => {
-    // Set canvas size
-    canvasWidth = windowWidth / 2;
-    canvasHeight = windowHeight;
-
-    // Resize canvas
-    cnv.resize(canvasWidth, canvasHeight);
-
-    // Update player position
-    player.position.x = windowWidth / 4;
-    player.position.y = windowHeight - 100;
-
     game_gameOver(true);
 });
 
