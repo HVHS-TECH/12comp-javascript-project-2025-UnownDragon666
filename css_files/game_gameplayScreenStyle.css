@@ -41,14 +41,12 @@ button.bottom-right {
     font-size: 16px;
 }
 
-/* Star animation */
 @keyframes twinkle {
     0% { opacity: 0.3; }
     50% { opacity: 1; }
     100% { opacity: 0.3; }
 }
 
-/* Styling for stars */
 .star {
     position: absolute;
     background-color: white;

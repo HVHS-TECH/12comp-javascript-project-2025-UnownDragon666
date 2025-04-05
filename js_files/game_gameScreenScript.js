@@ -74,8 +74,12 @@ const SPAWNRATEBONUS = 32;
 // Game constants
 const SCOREGAINED = 1;
 const GLITCHDURATION = 100;
-const PARTICLESIZE = 3;
 const COMBOTIMER = 5000; 
+
+// Particle constants
+const PARTICLESPEED = 5;
+const PARTICLESIZE = 3;
+const PARTICLELIFETIME = 30;
 
 /*********************************************************************************************************************************************************/
 // P5 Play Functions
@@ -550,10 +554,10 @@ function game_collectedObject(_player, _object) {
     // Create some particles that kinda make the game look better (feedback)
     for (let i = 0; i < random(8, 20); i++) {
         let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
+        particle.vel.x = random(-PARTICLESPEED, PARTICLESPEED);
+        particle.vel.y = random(-PARTICLESPEED, PARTICLESPEED);
         particle.color = 'yellow';
-        particle.life = 30;
+        particle.life = PARTICLELIFETIME;
     }
 
     // Remove the object from the game
@@ -582,10 +586,10 @@ function game_hitVoidShard(_player, _object) {
     // Create some particles that kinda make the game look better
     for (let i = 0; i < random(8, 20); i++) {
         let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
+        particle.vel.x = random(-PARTICLESPEED, PARTICLESPEED);
+        particle.vel.y = random(-PARTICLESPEED, PARTICLESPEED);
         random(0, 1) < 0.5 ? particle.color = 'red' : particle.color = 'black';
-        particle.life = 30;
+        particle.life = PARTICLELIFETIME;
     }
 
     // Flash the background dark and slowly fade the background back to normal
@@ -630,10 +634,10 @@ function game_collectedHeart(_player, _object) {
     // Display heart feedback
     for (let i = 0; i < random(8, 20); i++) {
         let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
+        particle.vel.x = random(-PARTICLESPEED, PARTICLESPEED);
+        particle.vel.y = random(-PARTICLESPEED, PARTICLESPEED);
         particle.color = 'lime';
-        particle.life = 30;
+        particle.life = PARTICLELIFETIME;
     }
 
     // Remove the object from the game
@@ -658,8 +662,8 @@ function game_collectedBonus(_player, _object) {
     // Create some particles (feedback)
     for (let i = 0; i < random(8, 20); i++) {
         let particle = createSprite(_object.x, _object.y, PARTICLESIZE, PARTICLESIZE, 'n');
-        particle.vel.x = random(-3, 3);
-        particle.vel.y = random(-3, 3);
+        particle.vel.x = random(-PARTICLESPEED, PARTICLESPEED);
+        particle.vel.y = random(-PARTICLESPEED, PARTICLESPEED);
         let randColor = Math.floor(random(0, 7));
         if (randColor == 1) {
             particle.color = 'red';
@@ -677,12 +681,13 @@ function game_collectedBonus(_player, _object) {
             particle.color = 'pink';
         }
         particle.scale = random(0.5, 1.5);
-        particle.life = 30;
+        particle.life = PARTICLELIFETIME;
     }
 
     // Start bonus timer
     bonusTimer = bonusDuration;
     bonusSpawnRate = 0;
+    
     // Set a timeout to reset the bonus spawn rate after the duration
     setTimeout(() => {
         bonusSpawnRate = 10;
@@ -765,7 +770,7 @@ function game_displayLives() {
 // Called in draw loop
 // Displays current player combo
 // Combo is the number of collectibles collected in a row
-// Most of the code below is from ChatGPT, though edited by me
+// Most of the code below in this function is from ChatGPT, though edited by me
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
