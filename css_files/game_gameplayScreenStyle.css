@@ -19,8 +19,8 @@ body {
 
 button.bottom-left {
     position: absolute;
-    bottom: 3rem; 
-    left: 3rem;   
+    bottom: 3rem;
+    left: 3rem;
     padding: 10px 20px;
     background-color: #fff;
     color: #000;
@@ -31,8 +31,8 @@ button.bottom-left {
 
 button.bottom-right {
     position: absolute;
-    bottom: 3rem; 
-    right: 3rem;   
+    bottom: 3rem;
+    right: 3rem;
     padding: 10px 20px;
     background-color: #fff;
     color: #000;
@@ -42,9 +42,17 @@ button.bottom-right {
 }
 
 @keyframes twinkle {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
 }
 
 .star {

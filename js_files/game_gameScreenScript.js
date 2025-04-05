@@ -68,13 +68,13 @@ const COLLECTIBLERADIUS = 20;
 const VOIDSHARDRADIUS = 30;
 const SPAWNMARGIN = 20;
 const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
-const COLLECTIBLESPAWNY = -50; 
+const COLLECTIBLESPAWNY = -50;
 const SPAWNRATEBONUS = 32;
 
 // Game constants
 const SCOREGAINED = 1;
 const GLITCHDURATION = 100;
-const COMBOTIMER = 5000; 
+const COMBOTIMER = 5000;
 
 // Particle constants
 const PARTICLESPEED = 5;
@@ -687,7 +687,7 @@ function game_collectedBonus(_player, _object) {
     // Start bonus timer
     bonusTimer = bonusDuration;
     bonusSpawnRate = 0;
-    
+
     // Set a timeout to reset the bonus spawn rate after the duration
     setTimeout(() => {
         bonusSpawnRate = 10;
