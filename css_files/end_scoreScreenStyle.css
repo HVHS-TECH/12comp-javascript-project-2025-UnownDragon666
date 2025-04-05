@@ -6,7 +6,7 @@
 }
 
 body {
-    /* Creative Commons, Source: https://www.deviantart.com/kahatamu/art/F2U-4K-TLG-backgrounds-Purple-sky-906294213    */ 
+    /* Creative Commons, Source: https://www.deviantart.com/kahatamu/art/F2U-4K-TLG-backgrounds-Purple-sky-906294213    */
     background-image: url(../assets/endScreenBackground.jpg);
 }
 
@@ -15,7 +15,7 @@ h1 {
     text-align: center;
     padding-top: 12rem;
     font-size: 2.5rem;
-    color: rgb(255, 197, 6); 
+    color: rgb(255, 197, 6);
     line-height: 120%;
 }
 
