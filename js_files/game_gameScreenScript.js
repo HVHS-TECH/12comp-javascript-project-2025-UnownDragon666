@@ -42,7 +42,7 @@ let bonusGroup;
 let bonusSpawnRate = 10;
 let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
-let bonusDuration = 300;
+
 let bonusPeriod = false;
 let spawnRateHasIncreased = false;
 
@@ -80,6 +80,7 @@ const SCOREGAINED = 1;
 const GLITCHDURATION = 100;
 const COMBOTIMER = 5000;
 const DIFFICULTYSCOREMULTIPLIER = sessionStorage.getItem('scoreMultiplier');
+const BONUSDURATION = 300;
 
 // Particle constants
 const PARTICLESPEED = 5;
@@ -692,13 +693,13 @@ function game_collectedBonus(_player, _object) {
     }
 
     // Start bonus timer
-    bonusTimer = bonusDuration;
+    bonusTimer = BONUSDURATION;
     bonusSpawnRate = 0;
 
     // Set a timeout to reset the bonus spawn rate after the duration
     setTimeout(() => {
         bonusSpawnRate = 10;
-    }, (bonusDuration / 30) * 1000); // Convert frames to milliseconds
+    }, (BONUSDURATION / 30) * 1000); // Convert frames to milliseconds
 
     // Remove the object from the game
     _object.remove();
