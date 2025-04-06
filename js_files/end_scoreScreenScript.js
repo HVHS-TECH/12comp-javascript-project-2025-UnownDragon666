@@ -48,7 +48,6 @@ const MESSAGEARRAY = [
 // Returns: N/A
 /*******************************************************/
 function end_pageLoadSetup() {
-
     if (end_playerScore == null) {
         // If the player score is null, set it to 0
         end_playerScore = 0;
