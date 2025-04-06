@@ -555,7 +555,7 @@ function game_gameOver(_resize) {
 function game_collectedObject(_player, _object) {
     console.log("Object collected");
     // Increase player's score
-    score += Math.floor(SCOREGAINED * DIFFICULTYSCOREMULTIPLIER * scoreMultiplier ** (1 + combo / 1000));
+    score += Math.floor(SCOREGAINED * DIFFICULTYSCOREMULTIPLIER * scoreMultiplier ** (1 + combo / 100));
     game_increaseCombo();
 
     // Create some particles that kinda make the game look better (feedback)
