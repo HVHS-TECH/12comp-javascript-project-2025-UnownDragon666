@@ -17,31 +17,31 @@ let diffSelectValue;
 /*******************************************************/
 const LIVES = [10, 5, 3, 2, 1];
 const FALLSPEED = [
-    { speedNum: 4, speed: 'Slow' },
-    { speedNum: 7, speed: 'Medium' },
-    { speedNum: 9.8, speed: 'Fast' },
-    { speedNum: 12, speed: 'Insane' },
-    { speedNum: 15, speed: "DIVINE" }
+    { speedNum: 9.8, speed: 'Slow' },
+    { speedNum: 12, speed: 'Medium' },
+    { speedNum: 15, speed: 'Fast' },
+    { speedNum: 20, speed: 'Insane' },
+    { speedNum: 20, speed: "DIVINE" }
 ];
 const SPAWNDENSITY = [
     { spawnNum: 50, density: 'Low' },
     { spawnNum: 60, density: 'Medium' },
     { spawnNum: 80, density: 'High' },
-    { spawnNum: 100, density: 'Crazy' },
-    { spawnNum: 120, density: 'RAIN OF GOD' }
+    { spawnNum: 120, density: 'Crazy' },
+    { spawnNum: 150, density: 'RAIN OF GOD' }
 ];
 const DANGERSPAWNRATE = [
     { spawnNum: 0, canSpawn: 'Safe' },
     { spawnNum: 0, canSpawn: 'Safe' },
-    { spawnNum: 70, canSpawn: 'Careful' },
+    { spawnNum: 85, canSpawn: 'Careful' },
     { spawnNum: 100, canSpawn: 'Danger' },
     { spawnNum: 150, canSpawn: "GOD'S WRATH" }
 ];
 const HEARTSPAWNRATE = [
-    { spawnNum: 25, canSpawn: 'Collect hearts to replenish lives' },
-    { spawnNum: 15, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 20, canSpawn: 'Collect hearts to replenish lives' },
     { spawnNum: 10, canSpawn: 'Collect hearts to replenish lives' },
     { spawnNum: 5, canSpawn: 'Collect hearts to replenish lives' },
+    { spawnNum: 2.5, canSpawn: 'Collect hearts to replenish lives' },
     { spawnNum: 0, canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
 ];
 

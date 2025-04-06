@@ -68,8 +68,11 @@ const COLLECTIBLERADIUS = 20;
 const VOIDSHARDRADIUS = 30;
 const SPAWNMARGIN = 20;
 const ORIGINALDANGERSPAWNRATE = sessionStorage.getItem('dangerSpawnRate');
-const COLLECTIBLESPAWNY = -50;
+const COLLECTIBLESPAWNYMIN = -50;
+const COLLECTIBLESPAWNYMAX = -150;
 const SPAWNRATEBONUS = 32;
+const ROTATIONSPEED = 2;
+const ROTATIONVALUES = {upperBound: ROTATIONSPEED, lowerBound:-ROTATIONSPEED}; 
 
 // Game constants
 const SCOREGAINED = 1;
@@ -248,8 +251,9 @@ function game_spawnCollectibleObjects() {
     // Creates collectible sprites
     if (random(0, randSpawnRateMax) < collectibleSpawnRate) {
         console.log('collectible spawned')
-        let starCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
+        let starCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), random(COLLECTIBLESPAWNYMIN, COLLECTIBLESPAWNYMAX), COLLECTIBLERADIUS, 'd');
         starCollectible.image = starImage;
+        starCollectible.rotationSpeed = random(ROTATIONVALUES.lowerBound, ROTATIONVALUES.upperBound);
         collectibleGroup.add(starCollectible);
     }
 }
@@ -266,7 +270,7 @@ function game_spawnMercyCollectibleObjects() {
     // Creates hearts for player to collect
     if (random(0, heartSpawnRateMax) < heartSpawnRate) {
         console.log('heart spawned')
-        let heartCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
+        let heartCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), random(COLLECTIBLESPAWNYMIN, COLLECTIBLESPAWNYMAX), COLLECTIBLERADIUS, 'd');
         heartCollectible.image = heartImage;
         heartCollectible.scale = 0.5;
         heartGroup.add(heartCollectible);
@@ -284,7 +288,7 @@ function game_spawnDangerousObjects() {
     // Creates voidShards for player to avoid
     if (dangerSpawnRate >= 50) {
         if (random(0, voidShardSpawnRateMax) < dangerSpawnRate) {
-            let voidShard = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, VOIDSHARDRADIUS, 'd');
+            let voidShard = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), random(COLLECTIBLESPAWNYMIN, COLLECTIBLESPAWNYMAX), VOIDSHARDRADIUS, 'd');
             voidShard.image = shardImage;
             voidShard.scale = 0.5;
             voidShardGroup.add(voidShard);
@@ -302,9 +306,10 @@ function game_spawnDangerousObjects() {
 /*******************************************************/
 function game_createBonusObjects() {
     if (random(0, bonusSpawnRateMax) < bonusSpawnRate) {
-        let bonusCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), COLLECTIBLESPAWNY, COLLECTIBLERADIUS, 'd');
+        let bonusCollectible = new Sprite(random(SPAWNMARGIN, canvasWidth - SPAWNMARGIN), random(COLLECTIBLESPAWNYMIN, COLLECTIBLESPAWNYMAX), COLLECTIBLERADIUS, 'd');
         bonusCollectible.image = bonusImage;
         bonusCollectible.scale = 0.5;
+        bonusCollectible.rotationSpeed = random(ROTATIONVALUES.lowerBound, ROTATIONVALUES.upperBound);
         bonusGroup.add(bonusCollectible);
     }
 }
