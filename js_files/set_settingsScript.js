@@ -24,11 +24,11 @@ const FALLSPEED = [
     { speedNum: 20, speed: "DIVINE" }
 ];
 const SPAWNDENSITY = [
-    { spawnNum: 50, density: 'Low' },
-    { spawnNum: 60, density: 'Medium' },
-    { spawnNum: 80, density: 'High' },
-    { spawnNum: 120, density: 'Crazy' },
-    { spawnNum: 150, density: 'RAIN OF GOD' }
+    { spawnNum: 75, density: 'Low' },
+    { spawnNum: 100, density: 'Medium' },
+    { spawnNum: 125, density: 'High' },
+    { spawnNum: 150, density: 'Crazy' },
+    { spawnNum: 175, density: 'RAIN OF GOD' }
 ];
 const DANGERSPAWNRATE = [
     { spawnNum: 0, canSpawn: 'Safe' },
@@ -43,6 +43,13 @@ const HEARTSPAWNRATE = [
     { spawnNum: 5, canSpawn: 'Collect hearts to replenish lives' },
     { spawnNum: 2.5, canSpawn: 'Collect hearts to replenish lives' },
     { spawnNum: 0, canSpawn: "YOU WILL NOT RECEIVE GOD'S MERCY" }
+];
+const DIFFICULTYSCOREMULTIPLIER = [
+    { scoreMultiplier: 1, diffValue: 'diff_novice' },
+    { scoreMultiplier: 3, diffValue: 'diff_apprentice' },
+    { scoreMultiplier: 5, diffValue: 'diff_expert' },
+    { scoreMultiplier: 10, diffValue: 'diff_master' },
+    { scoreMultiplier: 50, diffValue: 'diff_divine' }
 ];
 
 /*******************************************************/
@@ -89,7 +96,8 @@ function set_displayDifficultyInfo(event) {
         'Star Speed: ' + FALLSPEED[diffIndex].speed + '<br>' +
         'Star Density: ' + SPAWNDENSITY[diffIndex].density + '<br>' +
         'Are you in danger: ' + DANGERSPAWNRATE[diffIndex].canSpawn + '<br>' +
-        HEARTSPAWNRATE[diffIndex].canSpawn;
+        HEARTSPAWNRATE[diffIndex].canSpawn + '<br>' +
+        'Score Multiplier: ' + DIFFICULTYSCOREMULTIPLIER[diffIndex].scoreMultiplier;
 
     // Check if button exists, if not, create it
     if (!document.getElementById('startButton')) {
@@ -123,6 +131,7 @@ function set_startGame() {
     sessionStorage.setItem('dangerSpawnRate', DANGERSPAWNRATE[diffIndex].spawnNum);
     sessionStorage.setItem('difficulty', diffSelectValue)
     sessionStorage.setItem('heartSpawnRate', HEARTSPAWNRATE[diffIndex].spawnNum);
+    sessionStorage.setItem('scoreMultiplier', DIFFICULTYSCOREMULTIPLIER[diffIndex].scoreMultiplier);
 
     // Go to game page
     window.location.assign('../html_files/game_gameplayScreen.html');

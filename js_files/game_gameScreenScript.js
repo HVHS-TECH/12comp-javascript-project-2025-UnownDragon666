@@ -23,6 +23,7 @@ let collectibleGroup;
 let randSpawnRateMax = 5000;
 let collectibleSpawnRate = sessionStorage.getItem('spawnChance');
 let collectibleGravity = sessionStorage.getItem('fallSpeed');
+
 let scoreMultiplier = 1;
 
 // Hearts
@@ -72,12 +73,13 @@ const COLLECTIBLESPAWNYMIN = -50;
 const COLLECTIBLESPAWNYMAX = -150;
 const SPAWNRATEBONUS = 32;
 const ROTATIONSPEED = 2;
-const ROTATIONVALUES = {upperBound: ROTATIONSPEED, lowerBound:-ROTATIONSPEED}; 
+const ROTATIONVALUES = { upperBound: ROTATIONSPEED, lowerBound: -ROTATIONSPEED };
 
 // Game constants
 const SCOREGAINED = 1;
 const GLITCHDURATION = 100;
 const COMBOTIMER = 5000;
+const DIFFICULTYSCOREMULTIPLIER = sessionStorage.getItem('scoreMultiplier');
 
 // Particle constants
 const PARTICLESPEED = 5;
@@ -553,7 +555,7 @@ function game_gameOver(_resize) {
 function game_collectedObject(_player, _object) {
     console.log("Object collected");
     // Increase player's score
-    score += Math.floor(SCOREGAINED * scoreMultiplier * (1 + combo / 10));
+    score += Math.floor(SCOREGAINED * DIFFICULTYSCOREMULTIPLIER * scoreMultiplier * (1 + combo / 10));
     game_increaseCombo();
 
     // Create some particles that kinda make the game look better (feedback)
