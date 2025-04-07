@@ -17,6 +17,7 @@ let lives = sessionStorage.getItem('lives');
 let difficulty = sessionStorage.getItem('difficulty'); // This is for future leaderboard functionality through databases
 let canvasWidth, canvasHeight;
 let glitchStartTime = -1;
+let debugged = false; // For future leaderboard implementation, ensuring debug mode isn't abused for leaderboard places. If debugged is true, the player will be unable to submit score.
 
 // Collectibles
 let collectibleGroup;
@@ -168,7 +169,18 @@ function setup() {
 // Returns: N/A
 /*******************************************************/
 function draw() {
-    background('#170e36')
+    background('#170e36');
+
+    // activate debug mode for testing purposes
+    if (kb.pressed("w")) {
+        player.debug = true;
+        frameRate(10);
+        debugged = true;
+        setTimeout(()=> {
+            player.debug = false;
+            frameRate(60);
+        }, 3000);
+    }
 
     // Spawn falling objects that give points
     game_spawnCollectibleObjects();
@@ -526,10 +538,12 @@ function game_loseLife(_dropped) {
 // Called in draw loop when player's lives hit 0
 // Goes to end page, sends the score to sessionStorage
 // Input: boolean _resize (if true, the canvas was resized)
+// boolean of debugged (if true, debug was used during run, invalid for scoreboards)
 // Returns: N/A
 /*******************************************************/
-function game_gameOver(_resize) {
+function game_gameOver(_resize, _debugged) {
     sessionStorage.setItem('game_playerScore', score);
+    sessionStorage.setItem('game_playerDebugged', _debugged);
     noLoop();
     window.location.href = '../html_files/end_gameScoreScreen.html';
 
@@ -868,7 +882,7 @@ function game_createStars(_numStars) {
 //
 /*********************************************************************************************************************************************************/
 window.addEventListener('resize', () => {
-    game_gameOver(true);
+    game_gameOver(true, debugged);
 });
 
 /*********************************************************************************************************************************************************/
