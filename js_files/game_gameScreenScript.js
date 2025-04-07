@@ -228,7 +228,7 @@ function draw() {
 
     // Check if lives are 0, if so change page to end screen.
     if (lives == 0) {
-        game_gameOver();
+        game_gameOver(null, debugged);
     }
 }
 
