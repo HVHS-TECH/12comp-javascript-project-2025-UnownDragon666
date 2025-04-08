@@ -773,7 +773,7 @@ function game_displayScore() {
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = "yellow";
     textAlign(LEFT);
-    text("Score: " + score, 20, 40);
+    text(`Score: ${score}`, 20, 40);
     drawingContext.shadowBlur = 0;
 }
 
@@ -793,7 +793,7 @@ function game_displayLives() {
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = "yellow";
     textAlign(LEFT);
-    text("Lives: " + lives, 20, 80);
+    text(`Lives: ${lives}`, 20, 80);
     drawingContext.shadowBlur = 0;
 }
 
