@@ -12,6 +12,7 @@ console.log('%cend_scoreScreenScript.js running', 'color:blue; background-color:
 // Get score from sessionStorage
 let end_playerScore = sessionStorage.getItem("game_playerScore");
 let wasWindowResized = sessionStorage.getItem("game_windowResized");
+let wasDebugged = sessionStorage.getItem("game_playerDebugged");
 
 /*******************************************************/
 // Constants
@@ -54,7 +55,9 @@ function end_pageLoadSetup() {
     }
 
     // Displays an encouraging message if player's score > 0
-    if (end_playerScore == 0) {
+    if (wasWindowResized == 'true') {
+        end_displayMessage(end_chooseMessage());
+    } else if (end_playerScore == 0) {
         document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?";
     } else {
         end_displayMessage(end_chooseMessage());
@@ -76,6 +79,8 @@ function end_chooseMessage() {
     if (wasWindowResized == 'true') {
         // If the window was resized, display a different message
         return "Looks like you resized the window! Try to keep it the same size next time!";
+    } else if (wasDebugged == 'true') {
+        return "Sorry, debug is only for dev purposes, this score isn't able to be submitted."
     } else {
         // Used help from ChatGPT to write below math statement
         let randomMessage = Math.floor(Math.random() * MESSAGEARRAY.length);
