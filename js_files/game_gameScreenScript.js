@@ -43,7 +43,6 @@ let bonusGroup;
 let bonusSpawnRate = 10;
 let bonusSpawnRateMax = 10000;
 let bonusTimer = 0;
-
 let bonusPeriod = false;
 let spawnRateHasIncreased = false;
 
@@ -176,7 +175,7 @@ function draw() {
         player.debug = true;
         frameRate(10);
         debugged = true;
-        setTimeout(()=> {
+        setTimeout(() => {
             player.debug = false;
             frameRate(60);
         }, 3000);
@@ -344,10 +343,21 @@ function game_createBonusObjects() {
 /*******************************************************/
 function game_movePlayer() {
     // Check for left and right movement
+    let canMove = true;
     if (kb.pressing('a') || kb.pressing('left')) {
-        player.vel.x = -1 * MOVEMENTSPEED;
-    } else if (kb.pressing('d') || kb.pressing('right')) {
-        player.vel.x = MOVEMENTSPEED;
+        if (canMove == true) {
+            player.vel.x = -1 * MOVEMENTSPEED;
+            canMove = false;
+        }
+    }
+
+    if (kb.pressing('d') || kb.pressing('right')) {
+        if (canMove == true) {
+            player.vel.x = MOVEMENTSPEED;
+            canMove = false;
+        } else {
+            player.vel.x = 0;
+        }
     }
 
     // Stop player movement when key released
@@ -882,7 +892,10 @@ function game_createStars(_numStars) {
 //
 /*********************************************************************************************************************************************************/
 window.addEventListener('resize', () => {
-    game_gameOver(true, debugged);
+    // If debug mode has not been activated during this playthrough, then end game on viewport resize
+    if (debugged == false) {
+        game_gameOver(true, debugged);
+    }
 });
 
 /*********************************************************************************************************************************************************/
