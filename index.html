@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
-<head>
-    <title>Title page</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="./css_files/index_style.css">
-
-    <script defer src="js_files/index_startScript.js"></script>
-</head>
-
-<body onclick="index_toInstructionsPage();">
-    <div id="d_contentContainer">
-        <h1 id="h_gameTitle">Catch the Stars</h1>
-        <p id="p_startText">Click any key to start!</p>
-    </div>
-</body>
-
+    <head>
+        <title>Game Hub</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- CSS -->
+        <link rel="stylesheet" href="./css_files/index_style.css">
+        <!-- JS -->
+        <script defer src="./js_files/index_startScript.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Game Hub</h1>
+        </header>
+        <main>
+            <div id="d_gameContainer">
+                <div id="d_catchTheStarsContainer">
+                    <h1>Catch the Stars</h1>
+                    <p>Help the villagers to catch the falling stars.</p>
+                    <button id="b_catchTheStarsButton" onclick="window.location.href = './html_files/cts_startScreen.html'"> Click to play </button>
+                </div>
+                <d_whackAMoleContainer>
+                    <h1>Whack a Mole</h1>
+                    <p>Whack some moles with your friends</p>
+                    <button id="b_whackAMoleButton" onclick="window.location.href = './html_files/wam_startScreen.html'"> Click to play </button>
+                </d_whackAMoleContainer>
+            </div>
+        </main>
+    </body>
 </html>
