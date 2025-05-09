@@ -19,7 +19,7 @@ import { GoogleAuthProvider, getAuth, signOut, signInWithPopup } from "https://w
 // Exports
 export {
     fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
-    fb_logout, fb_loggedIn
+    fb_logout, fb_loggedIn, getAuth
 }
 
 /*******************************************************/
@@ -155,4 +155,4 @@ function fb_writeRec(_path, _data) {
     }).catch((error) => {
         console.error('Error writing data: ', error);
     });
-}   
+}

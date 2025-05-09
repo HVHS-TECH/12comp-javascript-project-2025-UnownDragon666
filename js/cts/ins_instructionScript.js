@@ -57,7 +57,7 @@ function ins_changeButtons() {
 
     // Add button functionality
     ins_nextPageButton.onclick = () => {
-        window.location.assign('../html_files/set_gameSettingsScreen.html');
+        window.location.assign('../../html/cts/set_gameSettingsScreen.html');
     }
 
     // Append the element to the DOM (So it becomes visible on the page)

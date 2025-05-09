@@ -5,21 +5,20 @@
     <title>End screen</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script defer src="../js_files/end_scoreScreenScript.js"></script>
-
-    <link rel="stylesheet" href="../css_files/end_scoreScreenStyle.css">
+    <link rel="stylesheet" href="../../css/cts/end_scoreScreenStyle.css">
 </head>
 
-<body onload="end_pageLoadSetup(); fb_initialise();">
+<body onload="end_pageLoadSetup()">
     <h1 id="h_endMessage"></h1>
     <p id="p_score"></p>
     <div id="d_buttonContainer">
         <button class="end_button" id="b_replayButton" onclick="end_restartGame()">Again!</button>
-        <button class="end_button" id="b_submitScoreButton" >Coming soon...</button>
+        <button class="end_button" id="b_submitScoreButton" onclick="end_submitscore()">Submit score</button>
         <button class="end_button" id="b_settingsButton" onclick="end_toSettingsPage()">Change settings</button>
     </div>
-    <script type="module" src="../js_files/fb_files/main.mjs"></script>
+    <script type="module" src="../../js/fb/main.mjs"></script>
+    <script type="module" src="../../js/cts/end_scoreScreenScript.js"></script>
 </body>
+
 
 </html>

@@ -106,15 +106,15 @@ function preload() {
 
     // Load images
     // playerImage made by me with Piskel
-    playerImage = loadImage('../assets/playerSprite.png');
+    playerImage = loadImage('../../assets/cts/playerSprite.png');
     // Image source: https://www.pngwing.com/en/free-png-mrdni
-    starImage = loadImage('../assets/collectibleSprite.png');
+    starImage = loadImage('../../assets/cts/collectibleSprite.png');
     // shardImage made by me with Piskel
-    shardImage = loadImage('../assets/voidShardSprite.png');
+    shardImage = loadImage('../../assets/cts/voidShardSprite.png');
     // heartImage made by me with Piskel
-    heartImage = loadImage('../assets/heartSprite.png');
+    heartImage = loadImage('../../assets/cts/heartSprite.png');
     // bonusImage made by me with Piskel
-    bonusImage = loadImage('../assets/bonusSprite.png');
+    bonusImage = loadImage('../../assets/cts/bonusSprite.png');
 }
 
 /*******************************************************/
@@ -555,7 +555,7 @@ function game_gameOver(_resize, _debugged) {
     sessionStorage.setItem('game_playerScore', score);
     sessionStorage.setItem('game_playerDebugged', _debugged);
     noLoop();
-    window.location.href = '../html_files/end_gameScoreScreen.html';
+    window.location.href = '../../html/cts/end_gameScoreScreen.html';
 
     if (_resize == true) {
         sessionStorage.setItem('game_windowResized', true);
@@ -912,7 +912,7 @@ window.addEventListener('resize', () => {
 // Returns: N/A
 /*******************************************************/
 function game_returnHome() {
-    window.location.assign('../index.html');
+    window.location.assign('../../html/cts/cts_startScreen.html');
 }
 
 /*******************************************************/

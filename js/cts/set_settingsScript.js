@@ -134,7 +134,7 @@ function set_startGame() {
     sessionStorage.setItem('scoreMultiplier', DIFFICULTYSCOREMULTIPLIER[diffIndex].scoreMultiplier);
 
     // Go to game page
-    window.location.assign('../html_files/game_gameplayScreen.html');
+    window.location.assign('../../html/cts/game_gameplayScreen.html');
 }
 
 /*******************************************************/

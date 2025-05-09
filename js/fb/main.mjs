@@ -17,6 +17,8 @@ import {
     fb_logout 
 } from './fb_io.mjs';
 
+fb_initialise(); 
+
 // Display relevant functions to the window
 window.fb_initialise = fb_initialise;
 window.fb_writeRec = fb_writeRec;

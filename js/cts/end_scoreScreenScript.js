@@ -14,6 +14,13 @@ let end_playerScore = sessionStorage.getItem("game_playerScore");
 let wasWindowResized = sessionStorage.getItem("game_windowResized");
 let wasDebugged = sessionStorage.getItem("game_playerDebugged");
 
+// Imports
+import {
+    fb_authenticate, fb_writeRec, getAuth
+} from '../fb/fb_io.mjs';
+
+// Constants
+const auth = getAuth();
 /*******************************************************/
 // Constants
 /*******************************************************/
@@ -67,6 +74,8 @@ function end_pageLoadSetup() {
     end_displayScore();
 }
 
+window.end_pageLoadSetup = end_pageLoadSetup;
+
 /*******************************************************/
 // end_chooseMessage()
 // Called by end_displayMessage()
@@ -117,6 +126,19 @@ function end_displayScore() {
 }
 
 /*******************************************************/
+// end_submitScore()
+// Called by button on page end_gameScoreScreen.html
+// Writes player's score to firebase database
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function end_submitscore() {
+    auth != null? fb_writeRec('scores/' + auth.currentUser.displayName, end_playerScore): fb_authenticate();
+}
+
+window.end_submitscore = end_submitscore;
+
+/*******************************************************/
 // end_restartGame()
 // Called by button on page end_gameScoreScreen.html
 // Redirects to the game page
@@ -124,8 +146,10 @@ function end_displayScore() {
 // Returns: N/A
 /*******************************************************/
 function end_restartGame() {
-    window.location.href = '../html_files/game_gameplayScreen.html';
+    window.location.href = '../../html/cts/game_gameplayScreen.html';
 }
+
+window.end_restartGame = end_restartGame;
 
 /*******************************************************/
 // end_toSettingsPage()
@@ -135,8 +159,10 @@ function end_restartGame() {
 // Returns: N/A
 /*******************************************************/
 function end_toSettingsPage() {
-    window.location.href = '../html_files/set_gameSettingsScreen.html';
+    window.location.href = '../../html/cts/set_gameSettingsScreen.html';
 }
+
+window.end_toSettingsPage = end_toSettingsPage;
 
 /*******************************************************/
 //  END OF APP

@@ -1,20 +1,20 @@
 /*******************************************************/
-// index_startScript.js
-// Index script
+// cts_startScript.js
+// cts_startScreen.html script
 // Written by Idrees Munshi
 /*******************************************************/
-console.log('%cindex_startScrip.js', 'color: blue; background-color: white;');
+console.log('%ccts_startScrip.js', 'color: blue; background-color: white;');
 
 /*******************************************************/
-// index_toInstructionsPage()
+// cts_toInstructionsPage()
 // Called when user clicks on start page
 // Moves to instructions page
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-function index_toInstructionsPage() {
+function cts_toInstructionsPage() {
     console.log('gameScreen');
-    document.location.href = 'html_files/ins_gameInstructions.html';
+    document.location.href = '../../html/cts/ins_gameInstructions.html';
 }
 
 /*******************************************************/
@@ -22,7 +22,7 @@ function index_toInstructionsPage() {
 // Performs same task as index_toInstructionsPage()
 /*******************************************************/
 document.addEventListener('keyup', () => {
-    document.location.href = 'html_files/ins_gameInstructions.html';
+    document.location.href = '../../html/cts/ins_gameInstructions.html';
 })
 
 /*******************************************************/
