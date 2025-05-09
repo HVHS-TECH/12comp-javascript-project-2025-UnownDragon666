@@ -1,0 +1,250 @@
+/* Import Figtree from google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+/* CSS Variables */
+
+:root {
+    --backgroundColor: #2a2b3c;
+    --textColor: #f5f5f5;
+    --sidebarColor: #1f2030;
+    --accentColor: #4f5d75;
+    --highlightColor: #ffc857;
+    --highlightHover: #fad17f;
+    --buttonBg: #3a3b4d;
+    --buttonHover: #50516a;
+    --modalBg: rgba(0, 0, 0, 0.7);
+    --cardBg: #3c3d4f;
+}
+
+/* Global styling */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Figtree', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--textColor);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--backgroundColor);
+}
+
+#d_layout {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar styling */
+
+#s_sidebar {
+    background-color: var(--sidebarColor);
+    width: 20%;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+}
+
+#s_sidebar.collapsed {
+    width: 5%;
+}
+
+#s_sidebar.collapsed .label {
+    display: none;
+}
+
+#b_sidebarToggle {
+    position: relative;
+    top: 0rem;
+    left: 0rem;
+    padding: 0.5rem;
+    background-color: var(--backgroundColor);
+    border: none;
+    color: var(--textColor);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#s_sidebar.collapsed *:not(#b_sidebarToggle):not(nav) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+#d_userStatus {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 4rem;
+}
+
+#d_buttonContainer button {
+    margin-top: 0.5rem;
+    width: 100%;
+    background-color: var(--buttonBg);
+    border: none;
+    padding: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#d_buttonContainer button:hover:not(:disabled) {
+    background-color: var(--buttonHover);
+}
+
+#d_buttonContainer button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+    font-size: 1.2rem;
+    margin: 0.75rem 0;
+    padding: 0.2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    overflow-x: hidden;
+}
+
+.nav-tab .icon {
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.nav-tab:hover {
+    background-color: var(--buttonHover);
+}
+
+.nav-tab.active {
+    background-color: var(--highlightColor);
+    color: #000;
+    font-weight: bold;
+}
+
+.nav-tab.active * {
+    color: #000 !important;
+}
+
+.nav-tab.active:hover {
+    background-color: var(--highlightHover);
+}
+
+/* Header styling */
+header {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    flex: none;
+}
+
+/* Main content styling */
+main {
+    flex: 1;
+    padding: 1rem 2rem;
+}
+
+#s_gamesSection {
+    font-size: 1.8rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+    gap: 1rem;
+}
+
+/* Game card styling */
+.gameCard {
+    background-color: var(--cardBg);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.gameCard:hover {
+    transform: scale(1.05);
+}
+
+/* Modal styling */
+.d_modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--modalBg);
+}
+
+.d_modal-content {
+    background-color: var(--cardBg);
+    padding: 4rem;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    border-radius: 10px;
+    max-width: 40%;
+    min-width: 33%;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#h_modalTitle {
+    font-weight: bold;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#p_modalDescription {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.s_modal-close {
+    position: absolute;
+    top: 0rem;
+    right: 1rem;
+    font-size: 4rem;
+    cursor: pointer;
+    color: var(--highlightColor)
+}
+
+.d_modal-content button {
+    margin-top: 1rem;
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accentColor);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.d_modal-content button:hover {
+    background-color: var(--highlightColor);
+    color: #000;
+}

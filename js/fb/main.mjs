@@ -13,9 +13,13 @@ console.log('%c main.mjs',
 
 // Imports
 import {
-    fb_initialise, fb_writeRec
+    fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
+    fb_logout 
 } from './fb_io.mjs';
 
 // Display relevant functions to the window
 window.fb_initialise = fb_initialise;
 window.fb_writeRec = fb_writeRec;
+window.fb_readRec = fb_readRec;
+window.fb_authenticate = fb_authenticate;
+window.fb_logout = fb_logout;

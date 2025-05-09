@@ -1,31 +1,82 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <title>Game Hub</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- CSS -->
-        <link rel="stylesheet" href="./css_files/index_style.css">
-        <!-- JS -->
-        <script defer src="./js_files/index_startScript.js"></script>
-    </head>
-    <body>
-        <header>
-            <h1>Game Hub</h1>
-        </header>
-        <main>
-            <div id="d_gameContainer">
-                <div id="d_catchTheStarsContainer">
-                    <h1>Catch the Stars</h1>
-                    <p>Help the villagers to catch the falling stars.</p>
-                    <button id="b_catchTheStarsButton" onclick="window.location.href = './html_files/cts_startScreen.html'"> Click to play </button>
+
+<head>
+    <title>Game Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/gm/gm_style.css">
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body onload="addEventListener('DOMContentLoaded', fb_initialise())">
+    <div id="d_layout">
+        <!-- Sidebar -->
+        <aside id="s_sidebar" class="collapsed">
+            <div id="d_userStatus">
+                <p id="p_userGreeting">Not logged in</p>
+                <div id="d_buttonContainer">
+                    <button id="b_login" onclick="fb_authenticate();">Sign In with Google</button>
+                    <button id="b_logout" onclick="fb_logout()" disabled>Sign Out</button>
                 </div>
-                <d_whackAMoleContainer>
-                    <h1>Whack a Mole</h1>
-                    <p>Whack some moles with your friends</p>
-                    <button id="b_whackAMoleButton" onclick="window.location.href = './html_files/wam_startScreen.html'"> Click to play </button>
-                </d_whackAMoleContainer>
             </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-tab active"><i class='bx bxs-joystick icon'></i><span class="label">Game
+                                Hub</span></a></li>
+                    <li><a href="./html/gm/gmAcc_profile.html" class="nav-tab"><i class='bx bxs-user icon'></i><span
+                                class="label">Profile</span></a></li>
+                    <li><a href="./html/gm/gmLb_leaderboard.html" class="nav-tab"><i
+                                class='bx bxs-trophy icon'></i><span class="label">Leaderboard</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <button id="b_sidebarToggle" aria-label="Toggle sidebar">
+                <i class='bx bx-menu'></i>
+            </button>
+            <header>
+                <h1 id="h_gameHubTitle">Game Hub</h1>
+            </header>
+
+            <section id="s_gamesSection">
+                <div class="gameCard" id="d_catchTheStarsContainer">
+                    <h2>Catch the Stars</h2>
+                </div>
+                <div class="gameCard" id="d_whackAMoleContainer">
+                    <h2>Whack a Mole</h2>
+                </div>
+                <div class="gameCard" id="game3">
+                    <h2>Game 3 Title</h2>
+                </div>
+                <div class="gameCard" id="game4">
+                    <h2>Game 4 Title</h2>
+                </div>
+            </section>
         </main>
-    </body>
+
+        <footer>
+
+        </footer>
+    </div>
+    <!-- Modals -->
+    <div id="d_modal" class="d_modal">
+        <div class="d_modal-content">
+            <span id="s_modalClose" class="s_modal-close">&times;</span>
+            <h2 id="h_modalTitle"></h2>
+            <p id="p_modalDescription"></p>
+            <button id="b_modalPlay"> Play Game </button>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script type="module" src="./js/fb/main.mjs"></script>
+    <script type="module" src="./js/gm/gm_gameManagerScript.mjs"></script>
+</body>
+
 </html>
