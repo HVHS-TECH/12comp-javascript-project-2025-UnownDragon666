@@ -50,11 +50,16 @@ const games = {
 /*******************************************************/
 // Imports
 /*******************************************************/
+import { fb_authenticate, fb_loggedIn } from '../fb/fb_io.mjs';
 
 /*******************************************************/
 // Exports
 /*******************************************************/
 
+/*******************************************************/
+// Main functionality of page
+/*******************************************************/
+// Toggle sidebar
 sidebarToggle.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
 });
@@ -66,7 +71,7 @@ Object.keys(games).forEach(id => {
         const game = games[id];
         modalTitle.textContent = game.title;
         modalDescription.textContent = game.description;
-        modalPlayButton.onclick = () => window.location.href = game.url;
+        modalPlayButton.onclick = gm_goToPage.bind(null, game.url);
         modal.style.display = 'flex';
     })
 })
@@ -82,3 +87,18 @@ window.addEventListener('click', (event) => {
         modal.style.display = 'none';
     }
 })
+
+/*******************************************************/
+// gm_goToPage()
+// Relocates user to another page, if they are logged in 
+// Called in index.html
+// Input: _path as a string (path to go to)
+// Returns: logged in status as boolean
+/*******************************************************/
+function gm_goToPage(_path) {
+    if (fb_loggedIn()) {
+        window.location.href = _path;
+    } else {
+        fb_authenticate();
+    }
+}

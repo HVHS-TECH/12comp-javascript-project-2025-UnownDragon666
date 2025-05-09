@@ -19,7 +19,7 @@ import { GoogleAuthProvider, getAuth, signOut, signInWithPopup } from "https://w
 // Exports
 export {
     fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
-    fb_logout
+    fb_logout, fb_loggedIn
 }
 
 /*******************************************************/
@@ -103,6 +103,18 @@ function fb_logout() {
     }).catch((error) => {
         console.error(error);
     });
+}
+
+/*******************************************************/
+// fb_loggedIn()
+// Check if user is logged in
+// Called in index.html
+// Input: N/A
+// Returns: boolean
+/*******************************************************/
+function fb_loggedIn() {
+    const auth = getAuth();
+    return auth.currentUser != null;
 }
 
 /*******************************************************/
