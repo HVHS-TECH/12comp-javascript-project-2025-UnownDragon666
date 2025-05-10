@@ -178,5 +178,18 @@ function end_toSettingsPage() {
 window.end_toSettingsPage = end_toSettingsPage;
 
 /*******************************************************/
+// end_toHubPage()
+// Called by button on page end_gameScoreScreen.html
+// Redirects to the hub page (index.html)
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function end_toHubPage() {
+    window.location.href = '../../../index.html';
+}
+
+window.end_toHubPage = end_toHubPage;
+
+/*******************************************************/
 //  END OF APP
 /*******************************************************/
