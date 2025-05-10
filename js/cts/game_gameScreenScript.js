@@ -911,7 +911,7 @@ window.addEventListener('resize', () => {
 // Returns: N/A
 /*******************************************************/
 function game_returnHome() {
-    window.location.assign('../../html/cts/cts_startScreen.html');
+    window.location.assign('../../../index.html');
 }
 
 /*******************************************************/
