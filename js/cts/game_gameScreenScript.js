@@ -14,10 +14,9 @@ let player;
 let gamestate = 'normal';
 let score = 0;
 let lives = sessionStorage.getItem('lives');
-let difficulty = sessionStorage.getItem('difficulty'); // This is for future leaderboard functionality through databases
 let canvasWidth, canvasHeight;
 let glitchStartTime = -1;
-let debugged = false; // For future leaderboard implementation, ensuring debug mode isn't abused for leaderboard places. If debugged is true, the player will be unable to submit score.
+let debugged = false; 
 
 // Collectibles
 let collectibleGroup;

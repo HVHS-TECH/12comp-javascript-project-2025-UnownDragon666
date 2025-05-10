@@ -51,6 +51,7 @@ const DIFFICULTYSCOREMULTIPLIER = [
     { scoreMultiplier: 10, diffValue: 'diff_master' },
     { scoreMultiplier: 50, diffValue: 'diff_divine' }
 ];
+const DIFFICULTIES = ['novice', 'apprentice', 'expert', 'master', 'divine'];
 
 /*******************************************************/
 // set_identifyDiffIndex()
@@ -89,6 +90,8 @@ function set_displayDifficultyInfo(event) {
 
     // Get index of the selected difficulty
     diffIndex = set_identifyDiffIndex(document.getElementById('s_diffSelect').value);
+
+    diffSelectValue = DIFFICULTIES[diffIndex];
 
     // Update the info text to show the relevant information
     set_diffInfoText.innerHTML =

@@ -7,12 +7,12 @@
 console.log('%cend_scoreScreenScript.js running', 'color:blue; background-color: white;')
 
 /*******************************************************/
-// Variables
+// Constants
 /*******************************************************/
-// Get score from sessionStorage
-let end_playerScore = sessionStorage.getItem("game_playerScore");
-let wasWindowResized = sessionStorage.getItem("game_windowResized");
-let wasDebugged = sessionStorage.getItem("game_playerDebugged");
+const SCORE = parseInt(sessionStorage.getItem("game_playerScore"));
+const WINDOWRESIZED = sessionStorage.getItem("game_windowResized");
+const DEBUGGED = sessionStorage.getItem("game_playerDebugged");
+const DIFF = sessionStorage.getItem('difficulty');
 
 // Imports
 import {
@@ -56,19 +56,23 @@ const MESSAGEARRAY = [
 // Returns: N/A
 /*******************************************************/
 function end_pageLoadSetup() {
-    if (end_playerScore == null) {
+    if (SCORE == null) {
         // If the player score is null, set it to 0
-        end_playerScore = 0;
+        SCORE = 0;
     }
 
     // Displays an encouraging message if player's score > 0
-    if (wasWindowResized == 'true') {
+    if (WINDOWRESIZED == 'true') {
         end_displayMessage(end_chooseMessage());
-    } else if (end_playerScore == 0) {
+    } else if (SCORE == 0) {
         document.getElementById('h_endMessage').innerHTML = "It's ok. Maybe try an easier difficulty?";
     } else {
         end_displayMessage(end_chooseMessage());
     }
+
+    if (DEBUGGED == 'true') {
+        document.getElementById('p_error').innerHTML = "Sorry, debug is only for dev purposes, this score isn't able to be submitted.";
+    }   
 
     // Displays players score from last play
     end_displayScore();
@@ -85,10 +89,10 @@ window.end_pageLoadSetup = end_pageLoadSetup;
 // Returns: N/A
 /*******************************************************/
 function end_chooseMessage() {
-    if (wasWindowResized == 'true') {
+    if (WINDOWRESIZED == 'true') {
         // If the window was resized, display a different message
         return "Looks like you resized the window! Try to keep it the same size next time!";
-    } else if (wasDebugged == 'true') {
+    } else if (DEBUGGED == 'true') {
         return "Sorry, debug is only for dev purposes, this score isn't able to be submitted."
     } else {
         // Used help from ChatGPT to write below math statement
@@ -119,7 +123,7 @@ function end_displayMessage(_message) {
 /*******************************************************/
 function end_displayScore() {
     // Gets the element by id of the p_score element and sets its innerHTML to the player's score
-    document.getElementById('p_score').innerHTML = 'Score: ' + end_playerScore;
+    document.getElementById('p_score').innerHTML = 'Score: ' + SCORE;
     // Centre the element horizontally on the page
     document.getElementById('p_score').style.textAlign = 'center';
     document.getElementById('p_score').style.margin = 'auto';
@@ -133,7 +137,15 @@ function end_displayScore() {
 // Returns: N/A
 /*******************************************************/
 function end_submitscore() {
-    auth != null? fb_writeRec('scores/' + auth.currentUser.displayName, end_playerScore): fb_authenticate();
+    if (DEBUGGED == 'true') {
+        alert("Sorry, debug is only for dev purposes, this score isn't able to be submitted.");
+        return;
+    }
+
+    auth != null? fb_writeRec('scores/' + DIFF + '/' + auth.currentUser.displayName, SCORE): fb_authenticate();
+    document.getElementById('b_submitScoreButton').disabled = true;
+    document.getElementById('h_endMessage').textContent = "Your score has been submitted!";
+    document.getElementById('h_endMessage').style.color = 'lime';
 }
 
 window.end_submitscore = end_submitscore;
