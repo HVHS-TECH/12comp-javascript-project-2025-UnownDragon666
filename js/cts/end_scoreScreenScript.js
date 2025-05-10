@@ -72,6 +72,7 @@ function end_pageLoadSetup() {
 
     if (DEBUGGED == 'true') {
         document.getElementById('p_error').innerHTML = "Sorry, debug is only for dev purposes, this score isn't able to be submitted.";
+        document.getElementById('b_submitScoreButton').disabled = true;
     }   
 
     // Displays players score from last play
@@ -93,7 +94,7 @@ function end_chooseMessage() {
         // If the window was resized, display a different message
         return "Looks like you resized the window! Try to keep it the same size next time!";
     } else if (DEBUGGED == 'true') {
-        return "Sorry, debug is only for dev purposes, this score isn't able to be submitted."
+        return "Debug is only for dev purposes, score is unable to be submitted."
     } else {
         // Used help from ChatGPT to write below math statement
         let randomMessage = Math.floor(Math.random() * MESSAGEARRAY.length);
