@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Leaderboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/gm/gm_style.css">
+    <link rel="stylesheet" href="../../css/gm/gmLb_leaderboardStyle.css">
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="layout">
+        <!-- Sidebar -->
+        <aside id="s_sidebar" class="collapsed">
+            <div id="d_userStatus">
+                <p id="p_userGreeting">Not logged in</p>
+                <div id="d_buttonContainer">
+                    <button id="b_login" onclick="fb_authenticate();">Sign In with Google</button>
+                    <button id="b_logout" onclick="fb_logout()" disabled>Sign Out</button>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-tab active"><i class='bx bxs-joystick icon'></i><span class="label">Game
+                                Hub</span></a></li>
+                    <li><a href="./html/gm/gmAcc_profile.html" class="nav-tab"><i class='bx bxs-user icon'></i><span
+                                class="label">Profile</span></a></li>
+                    <li><a href="./html/gm/gmLb_leaderboard.html" class="nav-tab"><i
+                                class='bx bxs-trophy icon'></i><span class="label">Leaderboard</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
+
+    <!-- Main Content -->
+     <p>Hello World</p>
+
+    <!-- JS -->
+    <script type="module" src="../../js/fb/main.mjs"></script>
+    <script type="module" src="../../js/gm/gmLb_leaderboardScript.mjs"></script>
+</body>
+
+</html>
