@@ -14,12 +14,12 @@ console.log('%cfb_io.mjs running', 'color: blue; background-color: white;');
 // Imports
 import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
-import { GoogleAuthProvider, getAuth, signOut, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js";
+import { GoogleAuthProvider, getAuth, signOut, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js";
 
 // Exports
 export {
     fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
-    fb_logout, fb_loggedIn, getAuth
+    fb_logout, fb_loggedIn, getAuth, fb_updateLoginStatus
 }
 
 /*******************************************************/
@@ -82,6 +82,31 @@ function fb_authenticate() {
     }).catch((error) => {
         console.error(error);
     });
+}
+
+/*******************************************************/
+// fb_updateLoginStatus()
+// Update login status
+// Called in index.html
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function fb_updateLoginStatus() {
+    console.log('%c fb_updateLoginStatus(): ',
+        'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById('p_userGreeting').textContent = 'Hello ' + user.displayName + '!';
+            document.getElementById('b_login').style.display = 'none';
+            document.getElementById('b_logout').disabled = false;
+        } else {
+            document.getElementById('p_userGreeting').textContent = 'Please log in';
+            document.getElementById('b_login').style.display = 'block';
+            document.getElementById('b_logout').disabled = true;
+        }
+    })
 }
 
 /*******************************************************/

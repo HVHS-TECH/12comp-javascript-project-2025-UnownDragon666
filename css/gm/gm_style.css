@@ -81,6 +81,11 @@ body {
     transition: opacity 0.2s ease;
 }
 
+#p_userGreeting {
+    text-align: center;
+    font-size: 1.75rem;
+}
+
 #d_userStatus {
     text-align: center;
     margin-bottom: 2rem;

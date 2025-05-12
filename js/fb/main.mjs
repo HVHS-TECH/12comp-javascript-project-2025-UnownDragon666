@@ -6,7 +6,7 @@
 /*******************************************************/
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
-console.log('%c main.mjs',
+console.log('%cmain.mjs',
     'color: blue; background-color: white;');
 
 // Variables
@@ -14,14 +14,24 @@ console.log('%c main.mjs',
 // Imports
 import {
     fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
-    fb_logout 
+    fb_logout, fb_updateLoginStatus
 } from './fb_io.mjs';
 
-fb_initialise(); 
-
 // Display relevant functions to the window
-window.fb_initialise = fb_initialise;
 window.fb_writeRec = fb_writeRec;
 window.fb_readRec = fb_readRec;
 window.fb_authenticate = fb_authenticate;
 window.fb_logout = fb_logout;
+window.main_indexSetup = main_indexSetup;
+
+/*******************************************************/
+// main_indexSetup()
+// Firebase setup for index.html
+// Called by index.html
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function main_indexSetup() {
+    fb_initialise();
+    fb_updateLoginStatus();
+}
