@@ -1,10 +1,10 @@
 /*******************************************************/
-// gmLb_leaderboardScript.mjs
-// Leaderboard page script
+// gm_Acc_profileScript.mjs
+// Profile page script
 // Input: N/A
 // Returns: N/A
 /*******************************************************/
-console.log('%cgmLb_leaderboardScript running', 'color: blue; background-color: white;');
+console.log('%cgmAcc_profileScript running', 'color: blue; background-color: white;');
 
 /*******************************************************/
 // Variables

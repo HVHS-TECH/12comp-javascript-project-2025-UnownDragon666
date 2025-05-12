@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div id="layout">
+    <div id="d_layout">
         <!-- Sidebar -->
         <aside id="s_sidebar" class="collapsed">
             <div id="d_userStatus">
@@ -26,20 +26,35 @@
 
             <nav>
                 <ul>
-                    <li><a href="#" class="nav-tab active"><i class='bx bxs-joystick icon'></i><span class="label">Game
+                    <li><a href="../../index.html" class="nav-tab"><i class='bx bxs-joystick icon'></i><span
+                                class="label">Game
                                 Hub</span></a></li>
-                    <li><a href="./html/gm/gmAcc_profile.html" class="nav-tab"><i class='bx bxs-user icon'></i><span
+                    <li><a href="./gmAcc_profile.html" class="nav-tab"><i class='bx bxs-user icon'></i><span
                                 class="label">Profile</span></a></li>
-                    <li><a href="./html/gm/gmLb_leaderboard.html" class="nav-tab"><i
-                                class='bx bxs-trophy icon'></i><span class="label">Leaderboard</span></a></li>
+                    <li><a href="#" class="nav-tab active"><i class='bx bxs-trophy icon'></i><span
+                                class="label">Leaderboard</span></a></li>
                 </ul>
             </nav>
         </aside>
+
+        <!-- Main Content -->
+        <main>
+            <button id="b_sidebarToggle" aria-label="Toggle sidebar">
+                <i class='bx bx-menu'></i>
+            </button>
+            <header>
+                <h1 id="h_leaderboardTitle">Leaderboards</h1>
+            </header>
+
+            <section id="s_leaderboardSection">
+
+            </section>
+        </main>
+
+        <footer>
+
+        </footer>
     </div>
-
-    <!-- Main Content -->
-     <p>Hello World</p>
-
     <!-- JS -->
     <script type="module" src="../../js/fb/main.mjs"></script>
     <script type="module" src="../../js/gm/gmLb_leaderboardScript.mjs"></script>

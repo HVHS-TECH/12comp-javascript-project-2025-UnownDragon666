@@ -22,7 +22,6 @@ const modalClose = document.getElementById('s_modalClose');
 
 const sidebar = document.getElementById('s_sidebar');
 const sidebarToggle = document.getElementById('b_sidebarToggle');
-const toggleIcon = document.getElementById('i_toggleIcon');
 
 const games = {
     'd_catchTheStarsContainer' : {
