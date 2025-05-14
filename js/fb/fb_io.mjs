@@ -73,9 +73,13 @@ function fb_authenticate() {
         fb_readRec('users/' + result.user.uid).then((data) => {
             if (data == null) {
                 fb_writeRec('users/' + result.user.uid, {
-                    username: result.user.displayName,
-                    email: result.user.email,
-                    photoURL: result.user.photoURL
+                    uid: AUTH.currentUser.uid,
+                    email: auth.currentUser.email,
+                    name: auth.currentUser.displayName,
+                    photoURL: auth.currentUser.photoURL,
+                    providerId: auth.currentUser.providerId,
+                    metadata: auth.currentUser.metadata,
+                    providerData: auth.currentUser.providerData
                 });
             }
         })
