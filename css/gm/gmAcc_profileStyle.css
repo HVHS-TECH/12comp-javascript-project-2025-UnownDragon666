@@ -1,0 +1,41 @@
+:root {
+    --backgroundColor: #2a2b3c;
+    --textColor: #f5f5f5;
+    --sidebarColor: #1f2030;
+    --accentColor: #4f5d75;
+    --highlightColor: #ffc857;
+    --highlightHover: #fad17f;
+    --buttonBg: #3a3b4d;
+    --buttonHover: #50516a;
+    --modalBg: rgba(0, 0, 0, 0.7);
+    --cardBg: #3c3d4f;
+}
+
+#d_headerContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 0.3rem inset var(--highlightColor);
+    background: var(--buttonBg);
+    transition: background 0.3s ease;
+}
+
+#h_userName {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-left: 7rem;
+}
+
+#p_userEmail {
+    font-size: 1rem;
+    margin-left: 7rem;
+    opacity: 0.7;
+}
+
+#img_profilePic {
+    width: 8vw;
+    border-radius: 50%;
+    border: 0.1rem solid var(--highlightHover);
+}

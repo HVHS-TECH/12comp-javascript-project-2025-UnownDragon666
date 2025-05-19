@@ -19,7 +19,8 @@ import { GoogleAuthProvider, getAuth, signOut, signInWithPopup, onAuthStateChang
 // Exports
 export {
     fb_initialise, fb_authenticate, fb_readRec, fb_writeRec,
-    fb_logout, fb_loggedIn, getAuth, fb_updateLoginStatus
+    fb_logout, fb_loggedIn, getAuth, fb_updateLoginStatus,
+    fb_profileAuthState
 }
 
 /*******************************************************/
@@ -109,6 +110,24 @@ function fb_updateLoginStatus() {
             document.getElementById('p_userGreeting').textContent = 'Please log in';
             document.getElementById('b_login').style.display = 'block';
             document.getElementById('b_logout').disabled = true;
+        }
+    })
+}
+
+/*******************************************************/
+// fb_profileAuthState()
+// Check if user is logged in
+// Called in gmAcc_profile.html
+// Input: N/A
+// Returns: N/A
+/*******************************************************/
+function fb_profileAuthState() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            gmAcc_displayProfile(user);
+        } else {
+            gmAcc_displayLoginMessage();
         }
     })
 }

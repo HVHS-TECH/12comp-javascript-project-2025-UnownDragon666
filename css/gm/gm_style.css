@@ -67,6 +67,7 @@ body {
     top: 0rem;
     left: 0rem;
     padding: 0.5rem;
+    padding-bottom: 0.2rem;
     background-color: var(--backgroundColor);
     border: none;
     color: var(--textColor);
@@ -248,6 +249,7 @@ main {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .d_modal-content button:hover {

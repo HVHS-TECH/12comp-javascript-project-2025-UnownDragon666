@@ -12,7 +12,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
-<body>
+<body onload="setup()">
     <div id="d_layout">
         <!-- Sidebar -->
         <aside id="s_sidebar" class="collapsed">
@@ -31,8 +31,8 @@
                                 Hub</span></a></li>
                     <li><a href="#" class="nav-tab active"><i class='bx bxs-user icon'></i><span
                                 class="label">Profile</span></a></li>
-                    <li><a href="../../html/gm/gmLb_leaderboard.html" class="nav-tab"><i class='bx bxs-trophy icon'></i><span
-                                class="label">Leaderboard</span></a></li>
+                    <li><a href="../../html/gm/gmLb_leaderboard.html" class="nav-tab"><i
+                                class='bx bxs-trophy icon'></i><span class="label">Leaderboard</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -42,15 +42,14 @@
             <button id="b_sidebarToggle" aria-label="Toggle sidebar">
                 <i class='bx bx-menu'></i>
             </button>
-            <header>
-                <h1 id="h_leaderboardTitle">Leaderboards</h1>
-            </header>
-
-            <section id="s_leaderboardSection">
-
-            </section>
+            <div id="d_headerContainer">
+            </div>
         </main>
 
+        <section id="s_profileSection">
+
+        </section>
+        <!-- Footer -->
         <footer>
 
         </footer>
